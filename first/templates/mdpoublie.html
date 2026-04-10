@@ -1,0 +1,60 @@
+<!-- appel du menu de navigation -->
+{% extends "base.html" %}
+
+<!-- chargement des fichiers static -->
+{% load static %}
+
+{% block navbar %}
+
+
+<!-- formulaire de connexion  -->
+
+<section class="px-4 p-20 bg-blue-100 w-full h-screen" data-aos="fade-right" data-aos-duration="800">
+
+    <!-- ma div blanche en font du formulaire -->
+
+    <div class=" bg-white max-w-xl p-12 mx-auto  rounded-lg shadow-lg ">
+        <div class="">
+            <!-- main texte  -->
+            <div class=" mb-4">
+                <h1 class="text-xl sm:text-xl md:text-2xl lg:text-3xl font-bold text-center mb-2">Mot de passe oublié<span class="text-blue-500"></h1>
+                <p class="text-sm sm:text-md md:text-xl lg:text-xl text-gray-600 text-center">Pour plus de sécurité, veillez entrer votre adresse email</p>
+            </div>
+           
+            <!-- champ de saisis -->
+            <form method="POST" class="space-y-2">
+                {% csrf_token %}
+                <div data-aos="fade-up" data-aos-duration="100">
+                    <label for="" id="" class="block sm:text-sm md:text-md lg:text-lg text-gray-800">Email</label>
+                    <input type="email" id="" name="email" placeholder="exemple@gmail.com" required
+                        class="mt-1 block w-full rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500 border-gray-500 shadow-md">
+                </div>
+
+                <!-- bouton de connexion -->
+                <div class="text-center mt-3">
+                    <button 
+                        class="text-md font-bold w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">Confirmer</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 120,
+        easing: 'ease-in-out'
+    });
+</script>
+
+{% block content %}
+
+{% endblock %}
+
+{% endblock %}

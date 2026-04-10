@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section>
+    <div class="bg-white shadow-md fixed z-50 top-0 left-0 w-full">
+        <nav class="flex justify-between items-center h-16 px-4 md:px-12">
+
+
+            <h3 class="text-xl md:text-2xl font-bold">
+                Buil<span class="text-blue-500">Hub</span>
+            </h3>
+
+            <div class="hidden md:flex items-center gap-6">
+                <a href="{% url 'dashboard' %}" class="text-gray-600 hover:text-blue-500">Dashboard</a>
+                <a href="{% url 'demandes' %}" class="text-gray-600 hover:text-blue-500">Mes demandes</a>
+
+                <div class="flex items-center gap-2">
+                    <div>
+                        <p class="text-gray-500 text-sm">{{ request.user.last_name }} {{ request.user.first_name }}</p>
+                        <p class="text-gray-400 text-xs">
+                            {% if request.user.profil.is_artisan %}
+                            Artisan
+                            {% else %}
+                            Client
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div
+                        class="w-10 h-10 flex items-center justify-center bg-blue-500 text-white rounded-full font-bold">
+                        {{ request.user.last_name|slice:":1"|upper }}{{ request.user.first_name|slice:":1"|upper }}
+                    </div>
+                </div>
+                  <form action="{% url 'deconnexion' %}" method ="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="cursor-pointer hover:text-blue-500 text-gray-600">
+                        Deconnexion
+                    </button>
+                </form>
+            </div>
+        </nav>
+    </div>
+
+</section>
+
+<!-- FORMULAIRE -->
+
+<section class="bg-blue-50 min-h-screen pt-24 pb-10">
+    <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow">
+
+        <h1 class="text-2xl font-bold mb-4 text-blue-500">Publier une demande</h1>
+        {% if form.errors %}
+        <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
+            {{ form.errors }}
+        </div>
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- titre -->
+            <div class="mb-4">
+                <label class="block mb-1 font-medium">Titre</label>
+                <input type="text" name="titre"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500">
+            </div>
+
+            <!-- description -->
+            <div class="mb-4">
+                <label class="block mb-1 font-medium">Description</label>
+                <textarea name="description" rows="4"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500"></textarea>
+            </div>
+
+            <!-- categorie -->
+            <div class="mb-4">
+                <label class="block mb-1 font-medium">Catégorie</label>
+                <select name="categorie"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500">
+                    <option value="Plomberie">Plomberie</option>
+                    <option value="Maçonnerie">Maçonnerie</option>
+                    <option value="Électricité">Électricité</option>
+                    <option value="Ménuiserie">Ménuiserie</option>
+                    <option value="Carrelage">Carrelage</option>
+                    <option value="Peinture">Peinture</option>
+                </select>
+            </div>
+
+            <!-- budget -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block mb-1">Budget min</label>
+                    <input type="number" name="budget_min"
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block mb-1">Budget max</label>
+                    <input type="number" name="budget_max"
+                        class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500">
+                </div>
+            </div>
+
+            <!-- localisation -->
+            <div class="mb-4">
+                <label class="block mb-1">Localisation</label>
+                <input type="text" name="localisation"
+                    class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500">
+            </div>
+
+            <!-- boutons -->
+            <div class="flex justify-between mt-6">
+                <a href="{% url 'demandes' %}" class="px-4 py-2 border rounded-lg">Annuler</a>
+                <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
+                        Publier
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,899 @@
+<!-- appel du menu de navigation -->
+{% extends "base.html" %}
+
+<!-- chargement des fichiers static -->
+{% load static %}
+
+{% block navbar %}
+<div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full transition-colors duration-300">
+    <nav class="flex justify-between items-center h-16 ml-12 mr-12">
+        <div>
+            <h3 class="sm:text-xl md:text-2xl lg:text-3xl font-bold">Build<span class="text-blue-500">Hub</span></h3>
+        </div>
+        <div class="flex list-none gap-x-10 justify-center items-center">
+            <li>
+                <a class="hover:text-blue-500 text-gray-600 nav-link sm:text-md md:text-lg lg:text-xl"
+                    href="{% url 'home' %}">Accueil</a>
+            </li>
+            <div class="flex justify-center items-center gap-3 text-gray-400">
+                <div class="text-center">
+                    <p>
+                        {{ request.user.last_name }} {{ request.user.first_name }}
+                    </p>
+                    <p>Artisan</p>
+                </div>
+                <div class="bg-blue-500 rounded-full w-10 h-10 flex justify-center items-center text-white font-bold">
+                {{ request.user.last_name|slice:":1"|upper }}{{ request.user.first_name|slice:":1"|upper }}
+            </div>
+            </div>
+            </li>
+        </div>
+    </nav>
+</div>
+
+<!-- formulaire d'inscription  -->
+
+<section class=" bg-blue-100 w-full min-h-screen   py-20" data-aos="fade-right" data-aos-duration="800">
+    <div class="ml-12 mr-12">
+        <div class="text-center mb-3 sm:mb-12">
+            <div
+                class="inline-flex items-center gap-2 px-4 py-2 bg-green-200 text-green-800 rounded-full text-sm font-medium mb-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                    </path>
+                </svg>
+                Inscription Professionnelle
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-display font-bold text-gray-900 mb-4">
+                Devenez artisan partenaire
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                Rejoignez notre réseau de professionnels qualifiés et développez votre activité à Douala
+            </p>
+            <p class="text-sm sm:text-sm md:text-xl lg:text-xl text-gray-600 text-center md:mt-1 md:mb-2 lg:mt-1 lg:mb-2">
+            Bienvenue M. <span class="font-bold text-blue-500">{{ request.user.last_name }}</span> pour la création de votre compte en temps que artisan sur <span class="font-bold">Build</span><span class="text-blue-500 font-bold">Hub</span>, nous avions besoin que vous suiviez les 05 étapes pas à pas
+        </p>
+        </div>
+
+
+
+        <!-- Indicateur de progression -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium text-gray-700">Étape <span id="currentStep">1</span> sur 5</span>
+                <span class="text-sm text-gray-500"><span id="progressPercent">20</span>% complété</span>
+            </div>
+            <div class="w-full bg-white rounded-full h-2">
+                <div id="progressBar"
+                    class="bg-linear-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-300"
+                    style="width: 20%"></div>
+            </div>    
+
+        </div>
+
+                    {% if form.errors %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+                    {{ form.errors }}
+                </div>
+                     {% endif %}
+
+        <!-- Formulaire en étapes -->
+        <form method="POST" enctype="multipart/form-data" id="inscriptionForm" class="space-y-6">
+            {% csrf_token %}
+
+            <!-- ÉTAPE 1 : Informations personnelles -->
+            <div id="step1" class="step-content bg-white rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-100">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Informations personnelles</h2>
+                        <p class="text-sm text-gray-600">Vos coordonnées personnelles</p>
+                    </div>
+                </div>
+
+                <div class="space-y-5">
+                    <div class="grid grid-cols-1gap-5">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Date de naissance <span class="text-red-500">*</span>
+                            </label>
+                            <input type="date" required name="date_naissance"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <p class="text-xs text-gray-500 mt-1">Vous devez avoir au moins 18 ans</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Sexe <span class="text-red-500">*</span>
+                            </label>
+                            <select required name="sexe"
+                                class="w-full px-4 py-3 border outline-none border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white">
+                                <option value="">Sélectionner</option>
+                                <option value="homme">Homme</option>
+                                <option value="femme">Femme</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Nationalité <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" required name="nationalite"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg  outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="Ex: Camerounaise">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Numéro CNI <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" required name="cni"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            placeholder="Ex: 123456789">
+                        <p class="text-xs text-gray-500 mt-1">Carte Nationale d'Identité obligatoire</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Téléphone principal <span class="text-red-500">*</span>
+                            </label>
+                            <input type="tel" required name="telephone1"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="+237 6XX XX XX XX" maxlength="15">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Téléphone secondaire (WhatsApp)
+                            </label>
+                            <input type="tel" name="telephone2"
+                                class="w-full px-4 py-3 border border-gray-300 outline-none rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                placeholder="+237 6XX XX XX XX" maxlength="15">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÉTAPE 2 : Qualification professionnelle -->
+            <div id="step2"
+                class="step-content hidden bg-white rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-100">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Qualification professionnelle</h2>
+                        <p class="text-sm text-gray-600">Vos compétences et spécialités</p>
+                    </div>
+                </div>
+
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Métier principal <span class="text-red-500">*</span>
+                        </label>
+                        <select required name="metier_principal"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white">
+                            <option value="">Sélectionner votre métier</option>
+                            <option value="Plomberie">Plomberie</option>
+                            <option value="Électricité">Électricité</option>
+                            <option value="Maçonnerie">Maçonnerie</option>
+                            <option value="Ménuiserie">Menuiserie</option>
+                            <option value="Peinture">Peinture</option>
+                            <option value="Carrelage">Carrelage</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            Spécialités supplémentaires
+                        </label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox"
+                                    class="w-4 h-4 text-blue-600 outline-none border-gray-300 rounded focus:ring-blue-500">
+                                <span class="text-sm text-gray-700">Plomberie</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox"
+                                    class="w-4 h-4 text-blue-600 outline-none border-gray-300 rounded focus:ring-blue-500">
+                                <span class="text-sm text-gray-700">Électricité</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox"
+                                    class="w-4 h-4 text-blue-600 outline-none border-gray-300 rounded focus:ring-blue-500">
+                                <span class="text-sm text-gray-700">Maçonnerie</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox"
+                                    class="w-4 h-4 text-blue-600 outline-none border-gray-300 rounded focus:ring-blue-500">
+                                <span class="text-sm text-gray-700">Menuiserie</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox"
+                                    class="w-4 h-4 text-blue-600 outline-none border-gray-300 rounded focus:ring-blue-500">
+                                <span class="text-sm text-gray-700">Peinture</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox"
+                                    class="w-4 h-4 text-blue-600 outline-none border-gray-300 rounded focus:ring-blue-500">
+                                <span class="text-sm text-gray-700">Carrelage</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Années d'expérience <span class="text-red-500">*</span>
+                        </label>
+                        <select required name="annees_experiences"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 outline-none focus:ring-blue-500 focus:border-transparent bg-white">
+                            <option value="">Sélectionner</option>
+                            <option value="0-2">Moins de 2 ans</option>
+                            <option value="2-5">2 à 5 ans</option>
+                            <option value="5-10">5 à 10 ans</option>
+                            <option value="10+">Plus de 10 ans</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Niveau de formation <span class="text-red-500">*</span>
+                        </label>
+                        <select required name="niveau_formation"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 outline-none focus:ring-blue-500 focus:border-transparent bg-white">
+                            <option value="">Sélectionner</option>
+                            <option value="autodidacte">Autodidacte (apprentissage sur le terrain)</option>
+                            <option value="cap">CAP / BEP</option>
+                            <option value="bac_pro">Bac Professionnel</option>
+                            <option value="bts">BTS / DUT</option>
+                            <option value="ingenieur">Ingénieur / École supérieure</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Numéro SIRET (si entreprise) / Registre de Commerce
+                        </label>
+                        <input type="text" name="registre_commercial"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 outline-none focus:ring-blue-500 focus:border-transparent bg-white"
+                            placeholder="Ex: RC/DLA/2023/A/123">
+                        <p class="text-xs text-gray-500 mt-1">Optionnel - Mais fortement recommandé pour augmenter votre
+                            crédibilité</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Description de votre savoir-faire <span class="text-red-500">*</span>
+                        </label>
+                        <textarea required rows="4" name="description"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 outline-none focus:ring-blue-500 focus:border-transparent bg-white"
+                            placeholder="Décrivez vos compétences, votre expérience, vos réalisations marquantes..."></textarea>
+                        <p class="text-xs text-gray-500 mt-1">Minimum 100 caractères - Visible sur votre profil public
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÉTAPE 3 : Documents justificatifs -->
+            <div id="step3"
+                class="step-content hidden bg-white rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-100">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Documents justificatifs</h2>
+                        <p class="text-sm text-gray-600">Prouvez votre qualification professionnelle</p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <div class="flex gap-3">
+                        <svg class="w-5 h-5 text-blue-600 shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div class="text-sm text-blue-800">
+                            <p class="font-medium mb-1">Pourquoi ces documents ?</p>
+                            <p>Ces justificatifs nous permettent de vérifier votre identité et vos qualifications pour
+                                garantir la confiance des clients.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- CNI -->
+                    <div class="border border-gray-200 rounded-lg p-5">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Carte Nationale d'Identité</h3>
+                                    <p class="text-sm text-gray-600">Recto et verso de votre CNI</p>
+                                </div>
+                            </div>
+                            <span
+                                class="px-2 py-1 bg-red-100 text-red-700 text-xs font-medium rounded-full">Obligatoire</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">CNI Recto</label>
+                                <div
+                                    class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition cursor-pointer">
+                                    <input type="file" name="cni_recto" class="hidden" accept="image/*,application/pdf" id="cni-recto">
+                                    <label for="cni-recto" class="cursor-pointer">
+                                        <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                            </path>
+                                        </svg>
+                                        <p class="text-sm text-gray-600">Cliquer pour uploader</p>
+                                        <p class="text-xs text-gray-500 mt-1">JPG, PNG ou PDF (max 5Mo)</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">CNI Verso</label>
+                                <div
+                                    class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-blue-400 transition cursor-pointer">
+                                    <input type="file" name="cni_verso" class="hidden" accept="image/*,application/pdf" id="cni-verso">
+                                    <label for="cni-verso" class="cursor-pointer">
+                                        <svg class="w-8 h-8 text-gray-400 mx-auto mb-2" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                            </path>
+                                        </svg>
+                                        <p class="text-sm text-gray-600">Cliquer pour uploader</p>
+                                        <p class="text-xs text-gray-500 mt-1">JPG, PNG ou PDF (max 5Mo)</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attestation de qualification -->
+                    <div class="border border-gray-200 rounded-lg p-5">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Attestation de qualification professionnelle
+                                    </h3>
+                                    <p class="text-sm text-gray-600">Diplôme, certificat, attestation de formation ou
+                                        recommandation</p>
+                                </div>
+                            </div>
+                            <span
+                                class="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-medium rounded-full">Obligatoire</span>
+                        </div>
+                        <div
+                            class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition cursor-pointer">
+                            <input type="file" name="attestation" class="hidden" accept="image/*,application/pdf" multiple
+                                id="attestation">
+                            <label for="attestation" class="cursor-pointer">
+                                <svg class="w-10 h-10 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
+                                    </path>
+                                </svg>
+                                <p class="text-sm font-medium text-gray-700 mb-1">Télécharger vos justificatifs</p>
+                                <p class="text-xs text-gray-500">Diplômes, certificats, attestations (plusieurs fichiers
+                                    acceptés)</p>
+                                <p class="text-xs text-gray-500 mt-2">JPG, PNG ou PDF • Max 5Mo par fichier</p>
+                            </label>
+                        </div>
+                        <div class="mt-3 text-xs text-gray-600">
+                            <p class="font-medium mb-1">✅ Documents acceptés :</p>
+                            <ul class="list-disc list-inside space-y-1 ml-2">
+                                <li>Diplôme professionnel (CAP, BEP, Bac Pro, BTS...)</li>
+                                <li>Certificat de formation professionnelle</li>
+                                <li>Attestation de stage / apprentissage</li>
+                                <li>Lettre de recommandation d'ancien employeur</li>
+                                <li>Carte professionnelle (chambre des métiers)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Photo professionnelle -->
+                    <div class="border border-gray-200 rounded-lg p-5">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
+                                        </path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Photo de profil professionnelle</h3>
+                                    <p class="text-sm text-gray-600">Photo claire de vous en tenue de travail</p>
+                                </div>
+                            </div>
+                            <span
+                                class="px-2 py-1 bg-purple-100 text-purple-700 text-xs font-medium rounded-full">Obligatoire</span>
+                        </div>
+                        <div
+                            class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-400 transition cursor-pointer">
+                            <input type="file" class="hidden" name="photo_profil_pro" accept="image/*" id="photo-profil">
+                            <label for="photo-profil" class="cursor-pointer">
+                                <div
+                                    class="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-3 flex items-center justify-center">
+                                    <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <p class="text-sm font-medium text-gray-700 mb-1">Ajouter votre photo</p>
+                                <p class="text-xs text-gray-500">Photo professionnelle de face</p>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio (optionnel) -->
+                    <div class="border border-gray-200 rounded-lg p-5 bg-gray-50">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Photos de vos réalisations</h3>
+                                    <p class="text-sm text-gray-600">Montrez vos meilleurs travaux (max 10 photos)</p>
+                                </div>
+                            </div>
+                            <span
+                                class="px-2 py-1 bg-gray-200 text-gray-600 text-xs font-medium rounded-full">Recommandé</span>
+                        </div>
+                        <div
+                            class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary-400 transition cursor-pointer bg-white">
+                            <input type="file" class="hidden" accept="image/*" multiple id="portfolio">
+                            <label for="portfolio" class="cursor-pointer">
+                                <svg class="w-10 h-10 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                <p class="text-sm font-medium text-gray-700 mb-1">Ajouter des photos de vos travaux</p>
+                                <p class="text-xs text-gray-500">Augmentez vos chances d'être choisi • Max 10 photos</p>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÉTAPE 4 : Zone d'intervention -->
+            <div id="step4"
+                class="step-content hidden bg-white rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-100">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Zone d'intervention</h2>
+                        <p class="text-sm text-gray-600">Où intervenez-vous ?</p>
+                    </div>
+                </div>
+
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Ville principale <span class="text-red-500">*</span>
+                        </label>
+                        <select required name="ville_principale"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white">
+                            <option value="">Sélectionner</option>
+                            <option value="douala">Douala</option>
+                            <option value="yaounde">Yaoundé</option>
+                            <option value="bafoussam">Bafoussam</option>
+                            <option value="garoua">Garoua</option>
+                            <option value="autre">Autre ville</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Quartiers d'intervention <span class="text-red-500">*</span>
+                        </label>
+                        <p class="text-xs text-gray-500 mb-3">Sélectionnez les quartiers où vous intervenez (minimum 3)
+                        </p>
+                        <div
+                            class="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-4">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Akwa</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Bonanjo</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Bepanda</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Deido</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">New Bell</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Bonabéri</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Logbaba</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Makepe</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">PK8</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">PK12</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Ndogpassi</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" name="quartier_intervention"
+                                    class="w-4 h-4 text-primary-600 border-gray-300 rounded focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Kotto</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Rayon d'intervention <span class="text-red-500">*</span>
+                        </label>
+                        <div class="flex items-center gap-4">
+                            <input type="range" min="5" max="50" value="15" name="rayon"
+                                class="flex-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+                                id="rayonRange">
+                            <div class="flex items-center gap-2">
+                                <span id="rayonValue" class="text-2xl font-bold text-primary-600">15</span>
+                                <span class="text-sm text-gray-600">km</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Distance maximale que vous acceptez de parcourir depuis
+                            votre
+                            zone</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            Adresse de votre atelier/bureau (optionnel)
+                        </label>
+                        <input type="text" name="adresse"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            placeholder="Ex: Rue 123, Quartier Akwa">
+                        <p class="text-xs text-gray-500 mt-1">Non visible publiquement - Utilisé pour le calcul des
+                            distances</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-3">
+                            Disponibilité <span class="text-red-500">*</span>
+                        </label>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="disponibilite" value="immediat"
+                                    class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Disponible immédiatement</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="disponibilite" value="1semaine"
+                                    class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Disponible sous 1 semaine</span>
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="radio" name="disponibilite" value="1mois"
+                                    class="w-4 h-4 text-blue-600 border-gray-300 focus:ring-primary-500">
+                                <span class="text-sm text-gray-700">Disponible sous 1 mois</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÉTAPE 5 : Sécurité et validation -->
+            <div id="step5"
+                class="step-content hidden bg-white rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-100">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Sécurité du compte</h2>
+                        <p class="text-sm text-gray-600">Créez votre mot de passe et validez</p>
+                    </div>
+                </div>
+
+                <div class="space-y-5">
+                    <div>
+                        <div class="mt-2 space-y-1 text-xs">
+                            <p class="text-gray-600">Le mot de passe doit contenir :</p>
+                            <p class="text-gray-500">✓ Au moins 8 caractères</p>
+                            <p class="text-gray-500">✓ Une lettre majuscule</p>
+                            <p class="text-gray-500">✓ Une lettre minuscule</p>
+                            <p class="text-gray-500">✓ Un chiffre</p>
+                        </div>
+                    </div>
+
+                   
+
+                    <div class="border-t border-gray-200 pt-5">
+                        <h3 class="font-semibold text-gray-900 mb-4">Acceptation des conditions</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" required
+                                    class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-0.5 shrink-0">
+                                <span class="text-sm text-gray-700">
+                                    J'accepte les <a href="#" class="text-blue-600 hover:underline">Conditions Générales
+                                        d'Utilisation</a> et la <a href="#"
+                                        class="text-blue-600 hover:underline">Politique de Confidentialité</a>
+                                </span>
+                            </label>
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" required
+                                    class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-0.5 shrink-0">
+                                <span class="text-sm text-gray-700">
+                                    Je certifie sur l'honneur l'exactitude des informations fournies et l'authenticité
+                                    des
+                                    documents soumis
+                                </span>
+                            </label>
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox"
+                                    class="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-0.5 not-odd:shrink-0">
+                                <span class="text-sm text-gray-700">
+                                    J'accepte de recevoir des notifications par email et SMS concernant les nouvelles
+                                    demandes dans ma zone (recommandé)
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                        <div class="flex gap-3">
+                            <svg class="w-5 h-5 text-yellow-600 shrink-0 mt-0.5" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                </path>
+                            </svg>
+                            <div class="text-sm text-yellow-800">
+                                <p class="font-medium mb-1">Processus de validation</p>
+                                <p>Votre dossier sera examiné sous 48-72h. Vous recevrez une notification par email et
+                                    SMS
+                                    une fois votre compte validé.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation buttons -->
+            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <button type="button" id="prevBtn"
+                    class="cursor-pointer hidden px-6 py-3 border border-gray-300 text-blue-700 font-medium rounded-lg hover:bg-gray-50 transition">
+                    ← Précédent
+                </button>
+                <button type="button" id="nextBtn"
+                    class=" cursor-pointer flex-1 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition">
+                    Suivant →
+                </button>
+                <button type="submit" id="submitBtn"
+                    class="hidden flex-1 px-6 py-3 bg-linear-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold rounded-lg transition shadow-lg cursor-pointer">
+                    ✓ Valider mon inscription
+                </button>
+            </div>
+        </form>
+
+        <!-- Aide -->
+        <div class="mt-8 text-center">
+            <p class="text-sm text-gray-600">
+                Besoin d'aide ?
+                <a href="#" class="text-primary-600 hover:underline font-medium">Contactez notre support</a>
+                ou appelez le <span class="font-medium">+237 672 69 16 67</span>
+            </p>
+        </div>
+    </div>
+    </div>
+
+   <script>
+    let currentStep = 1;
+    const totalSteps = 5;
+
+    const steps = document.querySelectorAll('.step-content');
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const progressBar = document.getElementById('progressBar');
+    const currentStepText = document.getElementById('currentStep');
+    const progressPercent = document.getElementById('progressPercent');
+
+    const rayonRange = document.getElementById('rayonRange');
+    const rayonValue = document.getElementById('rayonValue');
+    rayonRange.addEventListener('input', function () {
+        rayonValue.textContent = this.value;
+    });
+
+    function showStep(step) {
+        steps.forEach((s, index) => {
+            s.classList.toggle('hidden', index + 1 !== step);
+        });
+
+        const progress = (step / totalSteps) * 100;
+        progressBar.style.width = progress + '%';
+        currentStepText.textContent = step;
+        progressPercent.textContent = Math.round(progress);
+
+        prevBtn.classList.toggle('hidden', step === 1);
+        nextBtn.classList.toggle('hidden', step === totalSteps);
+        submitBtn.classList.toggle('hidden', step !== totalSteps);
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+
+   function validateStep(step) {
+    const currentStepDiv = document.getElementById(`step${step}`);
+    const fields = currentStepDiv.querySelectorAll("input, select, textarea");
+
+    for (let field of fields) {
+        if (!field.checkValidity()) {
+            field.reportValidity();
+            return false;
+        }
+    }
+
+
+    if (step === 3) {
+        const cniRecto = document.getElementById("cni-recto");
+        const cniVerso = document.getElementById("cni-verso");
+        const attestation = document.getElementById("attestation");
+        const photo = document.getElementById("photo-profil");
+
+        if (!cniRecto.files.length) {
+            alert("Veuillez ajouter la CNI Recto");
+            return false;
+        }
+
+        if (!cniVerso.files.length) {
+            alert("Veuillez ajouter la CNI Verso");
+            return false;
+        }
+
+        if (!attestation.files.length) {
+            alert("Veuillez ajouter au moins un document de qualification");
+            return false;
+        }
+
+        if (!photo.files.length) {
+            alert("Veuillez ajouter votre photo de profil");
+            return false;
+        }
+    }
+
+    return true;
+}
+
+    nextBtn.addEventListener('click', () => {
+        if (!validateStep(currentStep)) return; 
+
+        if (currentStep < totalSteps) {
+            currentStep++;
+            showStep(currentStep);
+        }
+    });
+
+    prevBtn.addEventListener('click', () => {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+        }
+    });
+
+  
+   document.getElementById('inscriptionForm').addEventListener('submit', (e) => {
+    if (!validateStep(currentStep)) {
+        e.preventDefault();
+        return;
+    }
+
+});
+</script>
+
+</section>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 120,
+        easing: 'ease-in-out'
+    });
+</script>
+
+{% block content %}
+
+{% endblock %}
+
+{% endblock %}

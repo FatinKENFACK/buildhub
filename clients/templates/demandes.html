@@ -1,0 +1,374 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+    <div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full">
+
+        <nav class="flex justify-between items-center h-16 px-4 md:px-12">
+
+            <!-- logo-->
+            <h3 class="text-xl md:text-2xl lg:text-3xl font-bold">
+                Buil<span class="text-blue-500">Hub</span>
+            </h3>
+
+            <!-- menu -->
+            <div class="hidden md:flex items-center gap-6">
+
+                <p class=" hover:text-blue-500 text-gray-600">
+                    <a href="{% url 'dashboard' %}">Tableau de bord</a>
+                </p>
+
+                <a class="bg-blue-100 text-blue-500 rounded-lg px-3 py-1 font-bold " href="">
+                    Mes demandes
+                </a>
+
+                <div class="flex items-center gap-1">
+                    <a class="hover:text-blue-500 text-gray-600" href="{% url 'chat' %}">
+                        Messages
+                    </a>
+                    <span
+                        class="bg-red-500 text-white text-xs px-2 rounded-full animate-ping duration-100 w-4 h-4 flex justify-center items-center">3</span>
+                </div>
+
+                <a class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 font-bold"
+                    href="{% url 'creerDemande' %}">
+                    + Nouvelle demande
+                </a>
+
+                <!-- Profil -->
+                <div class="flex items-center gap-2">
+                    <div>
+                        <p class="text-gray-500 text-sm">{{ request.user.last_name|upper }} {{ request.user.first_name|upper }}</p>
+                        <p class="text-gray-400 text-xs">
+                            {% if request.user.profil.is_artisan %}
+                            Artisan
+                            {% else %}
+                            Client
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div
+                        class="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
+                        {{ request.user.last_name|slice:":1"|upper }}{{ request.user.first_name|slice:":1"|upper }}
+                    </div>
+                </div>
+                <form action="{% url 'deconnexion' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="cursor-pointer hover:text-blue-500 text-gray-600">
+                        Deconnexion
+                    </button>
+                </form>
+            </div>
+
+    </div>
+
+    <!-- menu hamburger -->
+    <button id="menu-btn" class="md:hidden text-2xl">
+        ☰
+    </button>
+
+    </nav>
+
+    <!-- menu mobile -->
+    <div id="mobile-menu"
+        class="hidden fixed top-16 right-0 w-3/4 max-w-sm h-screen bg-white shadow-lg p-6 flex-col gap-6 z-40">
+
+        <a href="" class="text-gray-700">Tableau de bord</a>
+
+        <div class="flex items-center gap-2">
+            <a href="" class="text-gray-700">Messages</a>
+            <span class="bg-red-500 text-white text-xs px-2 w-4 h-4 rounded-full">3</span>
+        </div>
+
+        <a href="" class="bg-blue-500 text-white p-2 rounded-lg text-center">
+            + Nouvelle demande
+        </a>
+
+        <div class="border-t pt-4">
+            <p class="text-gray-500">Fatin KENFACK</p>
+            <p class="text-gray-400 text-sm">Client</p>
+        </div>
+
+    </div>
+
+    </div>
+</section>
+
+<!-- script -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btn = document.getElementById("menu-btn");
+        const menu = document.getElementById("mobile-menu");
+
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+            menu.classList.toggle("flex");
+        });
+    });
+</script>
+
+
+<!-- section des demandes -->
+<section class="bg-blue-50">
+    <!-- Contenu Principal -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- En-tête -->
+        <div class="flex items-center justify-between mb-2 pt-15">
+            <div>
+                <h1 class="text-3xl font-display font-bold text-gray-900 mb-2 ">Mes demandes</h1>
+                <p class="text-gray-600">Gérez toutes vos demandes de travaux</p>
+            </div>
+
+        </div>
+
+        <!-- Filtres et recherche -->
+        <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6">
+            <div class="grid md:grid-cols-4 gap-4">
+                <!-- Recherche -->
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Rechercher</label>
+                    <div class="relative">
+                        <input type="text" placeholder="Titre, catégorie, localisation..."
+                            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+                        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-lineca p="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Statut -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
+                    <select
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+                        <option>Tous les statuts</option>
+                        <option>En attente de devis</option>
+                        <option>Devis reçus</option>
+                        <option>En cours</option>
+                        <option>Terminé</option>
+                        <option>Archivé</option>
+                    </select>
+                </div>
+
+                <!-- Catégorie -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Catégorie</label>
+                    <select
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none">
+                        <option>Toutes catégories</option>
+                        <option>Plomberie</option>
+                        <option>Électricité</option>
+                        <option>Peinture</option>
+                        <option>Maçonnerie</option>
+                        <option>Carrelage</option>
+                        <option>Menuiserie</option>
+                        <option>Autre</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs statut -->
+        <div class="flex gap-2 mb-6 overflow-x-auto pb-2">
+            <button
+                class="px-4 py-2 bg-primary-500 text-white bg-blue-500 rounded-lg p-1 font-medium whitespace-nowrap">
+                Toutes (8)
+            </button>
+            <button
+                class="px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 rounded-lg font-medium border border-gray-200 whitespace-nowrap">
+                En attente (2)
+            </button>
+            <button
+                class="px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 rounded-lg font-medium border border-gray-200 whitespace-nowrap">
+                Avec devis (5)
+            </button>
+            <button
+                class="px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 rounded-lg font-medium border border-gray-200 whitespace-nowrap">
+                En cours (2)
+            </button>
+            <button
+                class="px-4 py-2 bg-white text-gray-700 hover:bg-gray-50 rounded-lg font-medium border border-gray-200 whitespace-nowrap">
+                Terminées (1)
+            </button>
+        </div>
+
+        <!-- Liste des demandes -->
+        <div class="space-y-4">
+
+            <!-- Demande  -->
+
+
+            <div
+                class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition">
+
+                {% for demande in demandes %}
+
+                <div class="p-6">
+                    <div class="flex items-start gap-4">
+                        <!-- Image -->
+                        <div
+                            class="w-24 h-24 rounded-lg bg-linear-to-br from-blue-100 to-blue-200 flex items-center justify-center shrink-0">
+                            <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                                </path>
+                            </svg>
+                        </div>
+
+                        <!-- Contenu -->
+                        <div class="flex-1 min-w-0">
+
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex-1">
+                                    <!-- titre de la demande -->
+                                    <h3 class="text-xl font-bold text-gray-900 mb-2">{{ demande.titre }}</h3>
+                                    <div class="grid grid-cols-1  gap-2 mb-3">
+                                        <span
+                                            class="px-3 py-1 bg-blue-100 w-60 text-blue-700 text-sm font-medium rounded-full">
+                                            service de: <span class="font-bold uppercase text-md">
+                                                {{ demande.categorie }}
+                                                </span>
+                                        </span>
+
+                                        <!-- description de la demande -->
+                                        <span class="px-3 p-1 bg-green-100 text-green-700 text-md font-medium ">
+                                            {{ demande.description }}</span>
+                                    </div>
+                                </div>
+                                <button
+                                    class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- choix de l'artisan -->
+                            <div>
+                                <p class="
+                                        {% if demande.statut == 'accepté' %} bg-green-100 text-green-600
+                                        {% elif demande.statut == 'refusé' %} bg-red-100 text-red-600
+                                        {% else %} bg-yellow-100 text-yellow-600
+                                        {% endif %}
+                                         mb-4 font-bold text-center w-30 rounded-lg">
+
+                                    {{ demande.get_statut_display }}
+                                </p>
+                            </div>
+
+                            <div class="grid sm:grid-cols-3 gap-4 mb-4">
+                                <div class="flex items-center gap-2 text-sm text-gray-600">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                        </path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+
+                                    <!-- localisation -->
+                                    <span>{{ demande.localisation }}</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm text-gray-600">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+                                        </path>
+                                    </svg>
+
+                                    <!-- inscription du budget -->
+                                    <span class="font-bold">{{ demande.budget_min }} - {{ demande.budget_max }}
+                                        FCFA</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm text-gray-600">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+
+                                    <!-- date de publication -->
+                                    <span>Publié le {{ demande.date_creation }} </span>
+                                </div>
+
+                            </div>
+
+                            <!-- zone de boutons -->
+                            <div class="flex flex-wrap justify-between items-center gap-10">
+
+                                <!-- bouton de modification -->
+                                <a href="{% url 'modifierDemande' demande.id %}">
+                                    <button
+                                        class="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition">
+                                        Modifier
+                                    </button>
+                                </a>
+                                <button
+                                    class="px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition flex items-center gap-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z">
+                                        </path>
+                                    </svg>
+                                    Messages (3)
+                                </button>
+                                <a href="{% url 'supprimerDemande' demande.id %}">
+
+                                    <!-- bouton de suppression -->
+                                    <button
+                                        class="ml-auto px-4 py-2 text-red-600 hover:bg-red-50 font-medium rounded-lg transition">
+                                        Supprimer
+                                    </button>
+                                </a>
+                            </div>
+                            <hr class="border border-blue-500 mt-3">
+                        </div>
+
+                    </div>
+
+                    <!-- fin de la bocle for -->
+
+                </div>
+                {% empty %}
+                <div class="bg-white rounded-lg h-20 flex justify-center items-center">
+                    <p class="font-bold text-xl text-center">Aucune demande pour l'instant!!!</p>
+                </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+        <!-- Pagination -->
+        <div class="flex items-center justify-between mt-8">
+            <p class="text-md text-gray-600">
+                Affichage de <span class="font-semibold">1</span> à <span class="font-semibold">3</span> sur <span
+                    class="font-semibold">8</span> demandes
+            </p>
+            <div class="flex gap-2">
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition"
+                    disabled>
+                    Précédent
+                </button>
+                <button class="px-4 py-2 bg-primary-500 text-white rounded-lg bg-blue-500">1</button>
+                <button
+                    class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">2</button>
+                <button
+                    class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">3</button>
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition">
+                    Suivant
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+
+    </div>
+</section>
+{% endblock %}

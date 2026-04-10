@@ -1,0 +1,102 @@
+{% load tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuilHub</title>
+    <link rel="stylesheet" href="{% static 'first/css/inp.css' %}">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    {% tailwind_css %}
+    
+</head>
+<body>
+    {% block navbar %}
+<div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full transition-colors duration-300">
+    <nav class="flex justify-between items-center h-16 ml-12 mr-12 px-6 md:px-12">
+
+        <!-- nom de ma plateforme -->
+        <div><h3 class="sm:text-xl md:text-2xl lg:text-3xl font-bold">Buil<span class="text-blue-500">Hub</span></h3></div>
+
+        <!-- mes liens de navigation -->
+        <div class="flex list-none gap-x-10">
+            <div class="hidden md:flex gap-8">
+            {% if request.user.is_authenticated %}
+
+                <li><a class="hover:text-blue-500 text-gray-600 nav-link " href="{% url 'home' %}">Accueil</a></li>
+                <li><a class="hover:text-blue-500 text-gray-600 nav-link " href="#comment">Comment ça marche</a></li>
+                <li><a class="hover:text-blue-500 text-gray-600 nav-link " href="#categorie">Catégories</a></li>
+                <li><a class="hover:text-blue-500 text-gray-600 nav-link " href="#avantages">Avantages</a></li>
+                <a class="text-blue-500 bg-blue-100 p-1 rounded-lg font-medium " href="{% url 'dashboard' %}">
+                    Tableau de bord
+                </a>
+
+                <form action="{% url 'deconnexion' %}" method ="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="cursor-pointer text-blue-500 font-medium">
+                        Deconnexion
+                    </button>
+                </form>
+
+            {% else %}
+                <li><a class="hover:text-blue-500 text-gray-600 nav-link " href="{% url 'home' %}">Accueil</a></li>
+                <li><a class="hover:text-blue-500 text-gray-600 nav-link " href="#comment">Comment ça marche</a></li>
+                <li><a class="hover:text-blue-500 text-gray-600 nav-link " href="#categorie">Catégories</a></li>
+                <li><a class="hover:text-blue-500 text-gray-600 nav-link " href="#avantages">Avantages</a></li>
+                <li><a class="hover:text-blue-500 text-gray-600 nav-link " href="{% url 'connexion' %}">Connexion</a></li>
+                <li><a class="bg-blue-400 text-white rounded-lg p-2 hover:bg-blue-600 font-bold" href="{% url 'inscription' %}">Inscription</a></li>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- HAMBURGER AJOUTÉ ICI -->
+        <button id="menu-btn" class="md:hidden text-2xl text-gray-700 focus:outline-none">☰</button>
+
+    </nav>
+
+    <!-- MENU MOBILE AJOUTÉ -->
+    <div id="mobile-menu"
+        class="fixed top-16 right-0 w-3/4 max-w-sm h-screen bg-white shadow-lg p-6 flex flex-col gap-6 z-999 transform translate-x-full transition-transform duration-300">
+
+        <a class="hover:text-blue-500 text-gray-600" href="{% url 'home' %}">Accueil</a>
+        <a class="hover:text-blue-500 text-gray-600" href="#comment">Comment ça marche</a>
+        <a class="hover:text-blue-500 text-gray-600" href="#categorie">Catégories</a>
+        <a class="hover:text-blue-500 text-gray-600" href="#avantages">Avantages</a>
+        <a class="hover:text-blue-500 text-gray-600" href="{% url 'connexion' %}">Connexion</a>
+        <a class="bg-blue-400 text-white rounded-lg p-2 hover:bg-blue-600 font-bold text-center" href="{% url 'inscription' %}">Inscription</a>
+
+    </div>
+
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-998"></div>
+
+</div>
+
+<!-- SCRIPT AJOUTÉ -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btn = document.getElementById("menu-btn");
+        const menu = document.getElementById("mobile-menu");
+        const overlay = document.getElementById("overlay");
+        const body = document.body;
+
+        btn.addEventListener("click", () => {
+            menu.classList.remove("translate-x-full");
+            overlay.classList.remove("hidden");
+            body.classList.add("overflow-hidden");
+        });
+
+        overlay.addEventListener("click", () => {
+            menu.classList.add("translate-x-full");
+            overlay.classList.add("hidden");
+            body.classList.remove("overflow-hidden");
+        });
+    });
+</script>
+
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %} 
+
+

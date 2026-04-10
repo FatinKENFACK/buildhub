@@ -1,0 +1,69 @@
+<!-- appel du menu de navigation -->
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+<!-- chargement des fichiers static -->
+{% load static %}
+
+{% block navbar %}
+
+
+<!-- formulaire de connexion  -->
+
+<section class="px-4 p-20 bg-blue-100 w-full h-screen" data-aos="fade-right" data-aos-duration="800">
+
+    <!-- ma div blanche en font du formulaire -->
+
+    <div class=" bg-white max-w-xl p-12 mx-auto rounded-lg shadow-lg ">
+        <div class="">
+            <!-- main texte  -->
+            <div class=" mb-4">
+                <h1 class="text-xl sm:text-xl md:text-2xl lg:text-3xl font-bold text-center text-blue-500 mb-2">Changez
+                    de mot de
+                    passe</h1>
+                <p class="text-sm sm:text-md md:text-xl lg:text-xl text-gray-600 text-center">Veillez replir ces deux
+                    champs afin d'avoir un nouveau mot de passe</p>
+            </div>
+
+            <!-- champ de saisis -->
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                <div>
+                    <label>Nouveau mot de passe</label>
+                    {{ form.new_password1 }}
+                    {{ form.new_password1.errors }}
+                </div>
+
+                <div>
+                    <label>Confirmer le mot de passe</label>
+                    {{ form.new_password2 }}
+                    {{ form.new_password2.errors }}
+                </div>
+
+                <button type="submit" class="w-full bg-blue-500 text-white py-3 rounded-lg">
+                    Réinitialiser
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 120,
+        easing: 'ease-in-out'
+    });
+</script>
+
+
+
+{% endblock %}

@@ -1,0 +1,358 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block content %}
+
+
+<section id="accueil" class="bg-blue-100 mt-2 pt-20 min-h-screen w-full overflow-hidden">
+
+    <div class="flex flex-col md:flex-row px-6 md:px-12 gap-6 items-center">
+
+        <!-- TEXTE -->
+        <div class="flex-1" data-aos="fade-right" data-aos-delay="300">
+
+            <p class="bg-blue-200 rounded-lg text-center mb-3 
+                      text-xs sm:text-sm md:text-lg lg:text-xl 
+                      w-fit px-4 py-1">
+                Classée parmi les meilleurs
+            </p>
+
+            <h1 class="font-bold mt-4 mb-4 
+                       text-2xl sm:text-3xl md:text-5xl lg:text-7xl">
+                Trouver le bon artisan pour vos travaux
+            </h1>
+
+            <p class="text-gray-500 
+                      text-sm sm:text-base md:text-lg lg:text-2xl">
+                Publiez votre demande gratuitement et recevez plusieurs devis d'artisan qualifiés près de chez vous en
+                quelques heures.
+            </p>
+
+            <!-- boutons -->
+            <div class="flex flex-col sm:flex-row gap-4 mt-6">
+                <button class="bg-blue-400 rounded-lg p-3 text-white hover:bg-blue-700 w-full sm:w-auto">
+                    Publier une demande
+                </button>
+
+                <a href="#comment" class="outline p-3 text-blue-500 hover:bg-blue-200 text-center">
+                    Comment ça marche ?
+                </a>
+            </div>
+
+            <!-- stats -->
+            <div class="grid grid-cols-3 gap-4 mt-8 text-center md:text-left">
+
+                <div>
+                    <p class="text-blue-500 font-bold text-xl md:text-2xl animate-pulse">250 +</p>
+                    <p class="text-gray-500 text-sm md:text-lg">Artisans actifs</p>
+                </div>
+
+                <div>
+                    <p class="text-blue-500 font-bold text-xl md:text-2xl animate-bounce">750 +</p>
+                    <p class="text-gray-500 text-sm md:text-lg">Projets réalisés</p>
+                </div>
+
+                <div>
+                    <p class="text-blue-500 font-bold text-xl md:text-2xl animate-pulse">4.7/5</p>
+                    <p class="text-gray-500 text-sm md:text-lg">Note moyenne</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- div final du main section de l'image -->
+
+        <div class="flex-1  rounded-lg w-full flex justify-center" data-aos="zoom-in" data-aos-delay="300">
+            <img class=" w-60 sm:w-84 md:w-100 lg:w-[650px] items-center h-full rounded-lg object-cover m-2 shadow-lg outline-2 outline-blue-500 shadow-gray-800 "
+                src="{% static 'first/images/main.png' %}" alt="main Image">
+        </div>
+
+    </div>
+
+</section>
+
+
+
+
+</div>
+</section>
+
+<!-- comment ca marche -->
+
+<section id="comment" class="w-full h-screen pt-8">
+    <div class="mr-12 ml-12 ">
+        <div class="text-center justify-center mt-4" data-aos="fade-up">
+            <p class="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold mb-1">Comment ça marche ?</p>
+            <p class="text-xl sm:text-lg md:text-xl lg:text-3xl text-gray-500 mt-8 sm:mt-1 md:mt-3 lg:mt-5">Trois étapes
+                simples pour trouver votre artisan et réaliser vos
+                travaux</p>
+        </div>
+
+        <!-- etapes pour selectionner un artisan -->
+        <div
+            class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 sm:gap-2 md:gap-4 lg:gap-6 mb-12 sm:mt-2 md:mt-4 lg:mt-4 pt-4">
+
+
+            <!-- etape 1 -->
+            <div class="bg-blue-100 rounded-2xl" data-aos="flip-left" data-aos-delay="300">
+                <div class="flex justify-center mt-2">
+                    <p
+                        class="flex justify-center items-center text-white font-bold  bg-blue-700 rounded-full sm:text-md md:text-xl lg:text-2xl sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-12 lg:h-12 w-8 h-8">
+                        1</p>
+                </div>
+                <p class="font-bold m-2 text-center sm:text-xl md:text-2xl lg:text-3xl">Décrivez votre projet</p>
+                <p class="text-gray-500 text-center mr-2 ml-2 mb-3 sm:text-xl md:text-2xl lg:text-3xl">Publier
+                    gratuitement vos demande de travaux
+                    avec des détails</p>
+            </div>
+
+            <!-- etape 2 -->
+            <div class="rounded-2xl" data-aos="flip-left" data-aos-delay="300">
+                <div class="flex justify-center mt-2">
+                    <p
+                        class="flex justify-center items-center text-white font-bold  bg-amber-500 rounded-full sm:text-md md:text-xl lg:text-2xl sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-12 lg:h-12 w-8 h-8">
+                        2</p>
+                </div>
+                <p class="font-bold m-2 text-center sm:text-xl md:text-2xl lg:text-3xl">Recevez de dévis</p>
+                <p class="text-gray-500 text-center mr-2 ml-2 mb-3 sm:text-xl md:text-2xl lg:text-3xl">Les artisans
+                    qualifiés de votre région vous
+                    envoient leurs proposition sous 24H</p>
+            </div>
+
+            <!-- etape 3 -->
+            <div class="bg-blue-100 rounded-2xl" data-aos="flip-left" data-aos-delay="500">
+                <div class="flex justify-center mt-2">
+                    <p
+                        class="text-white font-bold bg-blue-700 sm:text-md md:text-xl lg:text-2xl sm:w-8 sm:h-8 md:w-8 md:h-8 lg:w-12 lg:h-12 w-8 h-8  rounded-full flex items-center justify-center">
+                        3
+                    </p>
+                </div>
+                <p class="font-bold m-2 text-center sm:text-xl md:text-2xl lg:text-3xl">Choisissez et lancez</p>
+                <p class="text-gray-500 text-center mr-2 ml-2 mb-3 sm:text-xl md:text-2xl lg:text-3xl">Comparez les
+                    profils, échanger et
+                    selectionner l'artisan qui vous convient le mieux</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- section services proposés -->
+
+<section id="categorie" class="bg-blue-100 pt-8 w-full h-screen">
+    <div class="mr-12 ml-12 ">
+        <div class="mt-5" data-aos="fade-up" data-aos-delay="100">
+            <p class="font-bold text-2xl sm:text-xl md:text-3xl lg:text-6xl text-center mb-4">Les services que nous
+                proposons</p>
+            <p class="text-center text-gray-500 text-xl sm:text-lg md:text-xl lg:text-3xl">Des artisans qualifiés dans
+                chaque domaine</p>
+        </div>
+
+
+        <!-- div de tous  sm:place-items-center md:place-items-center lg:place-items-center les services -->
+        <div class="grid grid-cols-4 place-items-center gap-4 mt-10 mb-10 ">
+
+            <!-- card plombier  -->
+            <div class="bg-white bg-linear-30 to-blue-200 from-blue-800 rounded-2xl sm:w-17 sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+                data-aos="fade-up" data-aos-delay="100">
+                <img src="{% static 'first/images/plomb.png' %}" alt="" class="flex justify-center w-8 h-8">
+                <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Plomberie</p>
+                <p class=" sm:text-lg md:text-xl lg:text-2xl text-center">07 artisans</p>
+            </div>
+
+            <!-- card electricien  -->
+
+            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+                data-aos="fade-up" data-aos-delay="100">
+                <img src="{% static 'first/images/elec.png' %}" alt="" class="flex justify-center w-8 h-8">
+                <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Électricité</p>
+                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">10 artisans</p>
+            </div>
+
+            <!-- card menuisier  -->
+
+            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+                data-aos="fade-up" data-aos-delay="100">
+                <img src="{% static 'first/images/menuis.png' %}" alt="" class="flex justify-center w-8 h-8">
+                <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Menuiserie</p>
+                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">12 artisans</p>
+            </div>
+
+            <!-- card macon  -->
+
+            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+                data-aos="fade-up" data-aos-delay="100">
+                <img src="{% static 'first/images/build.png' %}" alt="" class="flex justify-center w-8 h-8">
+                <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Maçonnerie</p>
+                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">40 artisans</p>
+            </div>
+
+
+            <!-- card carreleur -->
+            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+                data-aos="fade-up" data-aos-delay="100">
+                <img src="{% static 'first/images/autre.png' %}" alt="" class="flex justify-center w-8 h-8">
+                <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Carrelage</p>
+                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">10 artisans</p>
+            </div>
+
+            <!-- card peintre -->
+            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+                data-aos="fade-up" data-aos-delay="100">
+                <img src="{% static 'first/images/autre.png' %}" alt="" class="flex justify-center w-8 h-8">
+                <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Peinture</p>
+                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">07 artisans</p>
+            </div>
+
+           
+
+            <!-- card ferraileur -->
+            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+                data-aos="fade-up" data-aos-delay="100">
+                <img src="{% static 'first/images/autre.png' %}" alt="" class="flex justify-center w-8 h-8">
+                <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Ferraileurs</p>
+                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">08 artisans</p>
+            </div>
+
+
+            <!-- card climatisation -->
+            <div class="bg-white bg-linear-30 to-blue-200 from-blue-800 rounded-2xl sm:w-17 sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+                data-aos="fade-up" data-aos-delay="100">
+                <img src="{% static 'first/images/autre.png' %}" alt="" class="flex justify-center w-8 h-8">
+                <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Climatisation</p>
+                <p class=" sm:text-lg md:text-xl lg:text-2xl text-center">05 artisans</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- section choix de buildhub -->
+
+<section id="avantages" class="w-full h-screen pt-8 bg-blue-100">
+    <div class="mr-12 ml-12" data-aos="zoom-in" data-aos-delay="">
+        <div class="text-center justify-center mt-8">
+            <p class="text-2xl sm:text-xl md:text-3xl lg:text-6xl font-bold mb-3">Pourquoi choisir Build<span
+                    class="text-blue-500">Hub</span> ?</p>
+        </div>
+
+        <!-- artisans verifie -->
+
+        <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 sm:gap-3 md:gap-6 lg:gap-8    mb-12 mt-8 pt-3">
+            <div class="bg-blue-100 rounded-2xl" data-aos="zoom-in-up" data-aos-delay="200">
+                <div class="flex justify-center mt-3">
+                    <p class="flex items-center justify-center">
+                        <img src="{% static 'first/images/verfier.png' %}" alt="">
+                    </p>
+                </div>
+                <p class="font-bold m-2 text-center  sm:text-xl  md:text-2xl  lg:text-3xl ">Artisans vérifiés</p>
+                <p class="text-gray-500 text-center mr-2 ml-2 mb-3 sm:text-md md:text-lg lg:text-xl ">Tous nos artisans sont vérifiés et notés
+                    par la communauté pour votre securité</p>
+            </div>
+
+            <!-- artisan qualifiés -->
+
+            <div class="rounded-2xl" data-aos="zoom-in-up" data-aos-delay="200">
+                <div class="flex justify-center mt-3">
+                    <p class="flex justify-center items-center">
+                        <img width="60" height="60" src="{% static 'first/images/comp.png' %}" alt="">
+                    </p>
+                </div>
+                <p class="font-bold m-2 text-center sm:text-xl md:text-2xl lg:text-3xl ">Artisans qualifiés</p>
+                <p class="text-gray-500 text-center mr-2 ml-2 mb-3 sm:text-md md:text-lg lg:text-xl">Tous nos artisans possedes de compétences
+                    prouvées, vérifiés et pret à charbonner</p>
+            </div>
+
+            <!-- reponse rapide -->
+
+            <div class="bg-blue-100 rounded-2xl" data-aos="zoom-in-up" data-aos-delay="200">
+                <div class="flex justify-center mt-3">
+                    <p class="flex items-center justify-center">
+                        <img src="{% static 'first/images/rapide.png' %}" alt="">
+                    </p>
+                </div>
+                <p class="font-bold m-2 text-center  sm:text-xl  md:text-2xl  lg:text-3xl ">Réponse rapide</p>
+                <p class="text-gray-500 text-center mr-2 ml-2 mb-3  sm:text-md md:text-lg lg:text-xl ">Recevez vos premiers devis en moins de 24H
+                    grace à notre réseau d'artisans actifs
+                </p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- section footer -->
+
+<section class=" bg-linear-to-br from-blue-950 to-blue-700 text-white pt-20 pb-10 h-full w-full">
+
+    <div class="max-w-7xl mx-auto">
+
+        <div class="grid md:grid-cols-4 gap-10 mb-16">
+
+            <div data-aos="fade-right">
+                <h2 class="text-4xl font-bold mb-4">
+                    Build<span class="text-blue-400">Hub</span>
+                </h2>
+                <p class="text-gray-300 text-lg">
+                    La plateforme qui connecte les meilleurs artisans aux clients exigeants.
+                </p>
+            </div>
+
+            <div data-aos="fade-up">
+                <h3 class="font-bold text-xl mb-4">Navigation</h3>
+                <ul class="space-y-2 text-gray-300">
+                    <li class="hover:text-blue-400 transition cursor-pointer">Accueil</li>
+                    <li class="hover:text-blue-400 transition cursor-pointer">Comment ça marche</li>
+                    <li class="hover:text-blue-400 transition cursor-pointer">Catégories</li>
+                    <li class="hover:text-blue-400 transition cursor-pointer">Avantages</li>
+                </ul>
+            </div>
+
+            <div data-aos="fade-up" data-aos-delay="200">
+                <h3 class="font-bold text-xl mb-4">Services</h3>
+                <ul class="space-y-2 text-white">
+                    <li>Plomberie</li>
+                    <li>Électricité</li>
+                    <li>Menuiserie</li>
+                    <li>Maçonnerie</li>
+                </ul>
+            </div>
+
+            <div data-aos="fade-right">
+                <h3 class="font-bold text-xl mb-4">Contact</h3>
+                <p class="text-gray-300">📧 buildhub@gmail.com</p>
+                <p class="text-gray-300">📞 672-69-16-67</p>
+                <p class="text-gray-300">📍 Douala, Cameroun</p>
+            </div>
+
+        </div>
+
+        <div class="border-t border-blue-800 pt-6 text-center text-gray-400">
+            © 2026 BuildHub — Tous droits réservés
+        </div>
+
+    </div>
+
+</section>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 120,
+        easing: 'ease-in-out'
+    });
+</script>
+
+<script src="{% static 'first/js/navbar.js' %}"></script>
+
+</body>
+
+</html>
+
+{% endblock %}

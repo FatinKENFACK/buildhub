@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+
+{% block navbar %}
+
+<!-- menu de navigation -->
+<div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full transition-colors duration-300">
+    <nav class="flex justify-between items-center h-16 ml-12 mr-12">
+        <div>
+
+            <!-- texte principal -->
+            <h3 class="sm:text-xl md:text-2xl lg:text-3xl font-bold">Build<span class="text-blue-500">Hub</span></h3>
+        </div>
+
+        <!-- lien de navigation -->
+        <div class="flex list-none gap-x-10">
+            <li>
+                <a class="hover:text-blue-500 text-gray-600 nav-link sm:text-sm md:text-md lg:text-lg"
+                    href="{% url 'home' %}">Accueil</a>
+            </li>
+        </div>
+    </nav>
+</div>
+
+<!-- section de pour le message de bienvenue -->
+<section class=" bg-blue-100 w-full min-h-screen py-20 ">
+
+
+
+    <!-- ma div blanche en font de la section -->
+    <div class="ml-12 mr-12">
+        <div class="pt-12">
+
+            <!-- main texte  -->
+            <div class=" mb-4" data-aos="fade-up" data-aos-duration="800">
+
+                {% if messages %}
+                <div class="fixed top-5 right-5 z-50 space-y-2">
+                    {% for message in messages %}
+                    <div class="px-4 py-2 rounded shadow text-white
+                {% if message.tags == 'success' %} bg-green-500
+                {% elif message.tags == 'error' %} bg-red-500
+                {% else %} bg-blue-500
+                {% endif %}
+            ">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- pour le client -->
+
+                <!-- mon bouton dynamique -->
+                <div class="flex justify-center items-center mb-2 animate-bounce duration-75">
+                    <img class="sm:w-10 sm:h-10 md:w-15 md:h-15 lg:w-20 lg:h-20 w-15 h-15"
+                        src="{% static 'first/images/dynamique.png' %}" alt="dymanique">
+                </div>
+                <!-- message de bienvenue -->
+                <div class="flex sm:gap-0.5 md:gap-1 lg:gap-2 justify-center items-center">
+                    <h1 class="text-xl sm:text-xl md:text-2xl lg:text-3xl font-bold text-center mb-2">Build<span
+                            class="text-blue-500">Hub</span> vous accueille !!!</h1>
+                </div>
+                <p
+                    class="text-sm sm:text-sm md:text-xl lg:text-xl text-gray-600 text-center md:mt-1 md:mb-2 lg:mt-1 lg:mb-2">
+                    Félicitation <span class="font-bold text-blue-500">{{ request.user.last_name }}</span> votre compte
+                    a été créé avec succès!
+                </p>
+                <p class="text-sm sm:text-sm md:text-xl lg:text-xl text-gray-600 text-center">Vous pouvez maintenant
+                    profiter de toutes les fonctionaliés de la plateforme.</p>
+            </div>
+
+            <!-- bouton pour acceder au Dashboard -->
+            <div class="text-center mt-3" data-aos="fade-up" data-aos-duration="800">
+                <a href="{% url 'dashboard' %}">
+                    <button
+                        class="font-bold w-full md:w-auto inline-flex justify-center py-3 px-6 border border-transparent shadow-sm rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">Accédez
+                        à mon tableau de Bord </button>
+                </a>
+            </div>
+
+            <div class="mt-4 bg-white rounded-lg p-4 shadow-md hover:bg-gray-100" data-aos="fade-up">
+
+                <p class="flex justify-center items-center sm-text-lg md:text-xl lg:text-2xl font-bold mb-3">Guide de
+                    démarrage rapide.</p>
+
+                <div class="grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4">
+                    <!-- premiere description du guide -->
+                    <div class=" p-3 rounded-lg">
+                        <div class="flex gap-2 items-center">
+                            <p
+                                class="sm:text-sm md:text-md lg:text-lg text-white font-bold bg-blue-500 w-10 h-10 flex rounded-full text-center justify-center items-center">
+                                1</p>
+                            <p class="sm:text-sm md:text-md lg:text-lg text-gray-700 font-bold">Publiez</p>
+                        </div>
+                        <div>
+                            <p class="sm:text-sm md:text-md lg:text-lg text-gray-700">Décrivez votre travail en detail
+                                avec des photos</p>
+                        </div>
+                    </div>
+
+                    <!-- seconde description du guide -->
+                    <div class=" p-3 rounded-lg">
+                        <div class="flex gap-2 items-center">
+                            <p
+                                class="sm:text-sm md:text-md lg:text-lg text-white font-bold bg-blue-500 w-10 h-10 flex rounded-full text-center justify-center items-center">
+                                2</p>
+                            <p class="sm:text-sm md:text-md lg:text-lg text-gray-700 font-bold">Recevez</p>
+                        </div>
+                        <div>
+                            <p class="sm:text-sm md:text-md lg:text-lg text-gray-700">Obtenez plusieurs devis en moins
+                                de 24h.</p>
+                        </div>
+                    </div>
+
+                    <!-- troisieme description du guide -->
+                    <div class=" p-3 rounded-lg">
+                        <div class="flex gap-2 items-center">
+                            <p
+                                class="sm:text-sm md:text-md lg:text-lg text-white font-bold bg-blue-500 w-10 h-10 flex rounded-full text-center justify-center items-center">
+                                3</p>
+                            <p class="sm:text-sm md:text-md lg:text-lg text-gray-700 font-bold">Comparez</p>
+                        </div>
+                        <div>
+                            <p class="sm:text-sm md:text-md lg:text-lg text-gray-700">Étudiez les profils et tarifs
+                                proposés.</p>
+                        </div>
+                    </div>
+
+                    <!-- quatrieme description du guide -->
+                    <div class=" p-3 rounded-lg">
+                        <div class="flex gap-2 items-center">
+                            <p
+                                class="sm:text-sm md:text-md lg:text-lg text-white font-bold bg-blue-500 w-10 h-10 flex rounded-full text-center justify-center items-center">
+                                4</p>
+                            <p class="sm:text-sm md:text-md lg:text-lg text-gray-700 font-bold">Choisissez</p>
+                        </div>
+                        <div>
+                            <p class="sm:text-sm md:text-md lg:text-lg text-gray-700">Sélectionnez et lancez vos
+                                travaux!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- note sur le site -->
+        <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-8">
+            <div
+                class="bg-red-200 rounded-lg md:w-full p-4 text-center shadow-md transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer">
+                <p class="font-bold text-white text-2xl">250+</p>
+                <p class="text-gray-600 text-lg">Artisans vérifiés</p>
+            </div>
+
+            <div
+                class="bg-green-200 rounded-lg md:w-full p-4 text-center shadow-md transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer">
+                <p class="font-bold text-white text-2xl">750+</p>
+                <p class="text-gray-600 text-lg">Projets réalisés </p>
+            </div>
+
+            <div
+                class="bg-blue-200 rounded-lg md:w-full p-4 text-center shadow-md transition-all duration-300 hover:scale-105 hover:shadow-2xl cursor-pointer">
+                <p class="font-bold text-white text-2xl">4.7/5</p>
+                <p class="text-gray-600 text-lg">Satisfaction client</p>
+            </div>
+        </div>
+
+        <!-- aide pour le client -->
+
+        <div class="bg-blue-950 rounded-lg mt-10 pt-3">
+            <div class="">
+                <p class="font-bold sm:text-xl md:text-xl lg:text-2xl text-center text-white">Besoin d'aide pour
+                    Démarrer?</p>
+                <p class="text-white text-center sm:text-sm md:text-md lg:text-lg flex justify-center mb-4"> Notre
+                    équipe est disponible pour vous accompagner</p>
+            </div>
+
+            <!-- boutons pour l'aide -->
+            <div
+                class=" font-bold text-xl grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 text-center gap-3 ml-6 mr-6">
+
+                <!-- premier bouton -->
+                <a href="#"
+                    class="mb-2  rounded-lg bg-white flex justify-center items-center sm:text-md md:text-lg lg:text-lg text-lg">
+                    <button class=" flex justify-center items-center gap-2">
+                        <img class="w-10 h-10" src=" {% static 'first/images/chat.png' %}" alt="message">
+                        Chat en direct
+                    </button>
+                </a>
+
+                <!-- second bouton -->
+                <a href="#"
+                    class="mb-2 focus:ring-2 focus:ring-white border-2 border-white rounded-lg hover:bg-white hover:text-black flex justify-center items-center sm:text-md md:text-lg lg:text-lg text-lg">
+                    <button class="text-white hover:text-black flex justify-center items-center gap-2">
+                        <img class="w-10 h-10" src="{% static 'first/images/message.png' %}" alt="message">
+                        Nous contacter
+                    </button>
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
+<script>
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 120,
+        easing: 'ease-in-out'
+    });
+</script>
+
+{% endblock %}

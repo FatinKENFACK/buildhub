@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+{% block navbar %}
+
+<section>
+    <div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full">
+
+        <nav class="flex justify-between items-center h-16 px-4 md:px-12">
+
+            <!-- LOGO -->
+            <h3 class="text-xl md:text-2xl lg:text-3xl font-bold">
+                Buil<span class="text-blue-500">Hub</span>
+            </h3>
+
+            <!-- MENU DESKTOP -->
+            <div class="hidden md:flex items-center gap-6">
+
+                <a class="hover:text-blue-500 text-gray-600" href="{% url 'dashart' %}">
+                    Tableau de bord
+                </a>
+
+                <a class="hover:text-blue-500 text-gray-600" href="/">
+                    Demande disponible
+                </a>
+
+                <div class="flex items-center gap-1">
+                    <a class="hover:text-blue-500 text-gray-600" href="/">
+                        Messages
+                    </a>
+                    <span
+                        class="bg-red-500 animate-ping duration-100 w-4 h-4 flex justify-center items-center text-white text-xs px-2 rounded-full">3</span>
+                </div>
+
+                <a class="text-white bg-blue-500 px-3 py-1 rounded-lg" href="{% url 'devis' %}">
+                    Mes devis
+                </a>
+
+                <!-- Profil -->
+                <div class="flex items-center gap-2">
+                    <div>
+                        <p class="text-gray-500 text-sm">Fatin KENFACK</p>
+                        <p class="text-gray-400 text-xs">
+                            Artisan -Plombier
+                        </p>
+                    </div>
+
+                    <div
+                        class="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
+                        FK
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- HAMBURGER -->
+            <button id="menu-btn" class="md:hidden text-2xl">
+                ☰
+            </button>
+
+        </nav>
+
+        <!-- MENU MOBILE -->
+        <div id="mobile-menu"
+            class="hidden fixed top-16 right-0 w-3/4 max-w-sm h-screen bg-white shadow-lg p-6 flex-col gap-6 z-40">
+
+            <a href="/" class="text-gray-700">Tableau de bord</a>
+            <a href="/" class="text-gray-700">Demandes disponible</a>
+
+            <div class="flex items-center gap-2">
+                <a href="/" class="text-gray-700">Messages</a>
+                <span class="bg-red-500 text-white text-xs px-2 rounded-full w-4 h-4">3</span>
+            </div>
+
+            <a href="/" class="bg-blue-500 text-white p-2 rounded-lg text-center">
+                Mes devis
+            </a>
+
+            <div class="border-t pt-4">
+                <p class="text-gray-500">Fatin KENFACK</p>
+                <p class="text-gray-400 text-sm">
+                    FK
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+ {% endblock %}
+  
+
+<section class="bg-blue-50 min-h-screen pt-20">
+    <div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow">
+
+        <h2 class="text-xl font-bold mb-4">Modifier le devis</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label>Montant</label>
+                <input type="number" name="montant" value="{{ devis.montant }}"
+                    class="w-full border border-blue-500 p-2 rounded outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label>Délai (jours)</label>
+                <input type="number" name="delai" value="{{ devis.delai }}"
+                    class="w-full border border-blue-500 p-2 rounded outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label>Message</label>
+                <textarea name="message" class="w-full border border-blue-500 p-2 rounded outline-none focus:ring-2 focus:ring-blue-500">{{ devis.message }}</textarea>
+            </div>
+
+           <div class="flex justify-between">
+             <button type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded">
+                Enregistrer
+            </button>
+
+              <a class=" border px-4 py-2 rounded" href="{% url 'dashart' %}">
+                Annuler
+              </a>
+           </div>
+                
+                
+           
+
+        </form>
+
+    </div>
+
+</section>
+{% endblock %}
