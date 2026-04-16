@@ -39,24 +39,9 @@ class Demande(models.Model):
     localisation = models.CharField(max_length=255, blank=False)
     statut = models.CharField(max_length=20, choices=STATUTS, default='En attente')
     date_creation = models.DateTimeField(auto_now_add=True)
+    est_fermee = models.BooleanField(default=False)
     
     def __str__(self):
         return self.titre
     
     
-# class Notification(models.Model):
-#     TYPE_CHOICES = [
-#         ('info', 'Info'),
-#         ('success', 'Succès'),
-#         ('warning', 'Warning'),
-#     ]
-
-#     user = models.ForeignKey(User, on_delete=models.CASCADE)
-#     titre = models.CharField(max_length=255)
-#     message = models.TextField()
-#     type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='info')
-#     lu = models.BooleanField(default=False)
-#     date_creation = models.DateTimeField(auto_now_add=True)
-
-#     def __str__(self):
-#         return f"{self.titre} - {self.user}"

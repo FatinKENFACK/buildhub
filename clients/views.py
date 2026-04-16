@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from artisans.models import Artisan, Devis, Projet
+from notifications.models import Notification
 from .forms import RegisterForm
 from .models import Profil, Demande
 from .forms import DemandeForm
@@ -118,37 +119,70 @@ def dashboard(request):
     if profil.is_artisan:
         try:
             artisan = request.user.artisan
-            demands = Demande.objects.filter(categorie=artisan.metier_principal)
-            
+            demands = Demande.objects.filter(
+                categorie__iexact=artisan.metier_principal.strip()
+            )
         except Artisan.DoesNotExist:
              return redirect('controlArt') 
     else: 
         demands = Demande.objects.filter(user=request.user)
     
-    devis = Devis.objects.all()
-    projets = Projet.objects.filter(client=request.user)
-    # notifications = Notification.objects.filter(utilisateur=request.user).order_by('-date_creation')[:5]
-    
+    if profil.is_artisan:
+        devis = Devis.objects.filter(artisan=request.user)
+    else:
+        devis = Devis.objects.filter(demande__user=request.user)
+        projets = Projet.objects.filter(client=request.user)
+     
     demandes_count = demands.count()
     devis_count = devis.count()
+
+    notifications = Notification.objects.filter(
+        user=request.user,
+        is_read=False
+    ).order_by('-created_at')[:5]
 
     context = {
         'demandes_count': demandes_count,
         'devis_count': devis_count,
         'project_count': projets.count(),
         'messages_count': 0,
+        'notifications': notifications,
     }
 
-    return render(request, 'dashboard.html', {'demands': demands, 'context': context, 'devis':devis, 'project':projets,})
+    return render(request, 'dashboard.html', {
+        'demands': demands, 
+        'context': context, 
+        'devis':devis, 
+        'project':projets,
+        'demandes_count': demandes_count,
+        'project_count': projets.count(),
+        'notifications': notifications,
+    })
 
 ########### partie gestion de demandes (mes demandes) ########################
 
 # 1 voir les demandes
 @login_required(login_url='connexion')
 def demandes(request):
-    demandes = Demande.objects.all()
-    return render(request, 'demandes.html', {'demandes': demandes})
 
+    if hasattr(request.user, 'artisan'):
+        artisan = request.user.artisan
+
+        demandes = Demande.objects.filter(
+            categorie__iexact=artisan.metier_principal.strip()
+        )
+
+    else:
+        demandes = Demande.objects.filter(user=request.user)
+
+    devis_existant = Devis.objects.filter(
+        artisan=request.user
+    ).values_list('demande_id', flat=True)
+
+    return render(request, 'demandes.html', {
+        'demandes': demandes,
+        'devis_existant': devis_existant
+    })
 # 2 creer les demandes
 @login_required(login_url='connexion')
 def creerDemande(request):
@@ -160,7 +194,7 @@ def creerDemande(request):
             demande = form.save(commit=False)
             demande.user = request.user
             demande.save()
-            print("Demande a bien été créée :", demande)
+            messages.success(request, f" Votre demande '{demande.titre}' a été publiée avec succès !")
             return redirect('demandes')
         else:
             print(form.errors)
@@ -182,7 +216,7 @@ def modifierDemande(request, id):
         form = DemandeForm(request.POST, instance=demande)
         if form.is_valid():
             form.save()
-            print("Les modifications ont été effectuées avec succes")
+            messages.sucsess(request, "Les modifications ont été effectuées avec succes")
             return redirect('demandes')
     else:
         form = DemandeForm(instance=demande)
@@ -197,18 +231,11 @@ def supprimerDemande(request, id):
     demande.delete()
     return redirect('demandes')
 
-
-################# devis recu #############
-# @login_required(login_url='connexion')
-# def mesdevis(request):
-#     return render(request, 'dashboard.html')
-
 # 2 devis accepte
 @login_required(login_url='connexion')
 def devisaccepter(request, devis_id):
     devis = get_object_or_404(Devis, id=devis_id)
 
-    
     if devis.demande.user != request.user:
         return redirect('dashboard')
 
@@ -232,12 +259,6 @@ def devisaccepter(request, devis_id):
             artisan=devis.artisan
         )
         
-#     Notification.objects.create(
-#         user=devis.artisan,
-#         titre="Devis accepté ",
-#         message=f"Votre devis pour '{demande.titre}' a été accepté",
-#         type="success"
-# )
     return redirect('dashboard')
 
 

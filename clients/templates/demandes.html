@@ -37,7 +37,7 @@
 
                 <!-- Profil -->
                 <div class="flex items-center gap-2">
-                    <div>
+                    <div class="text-center">
                         <p class="text-gray-500 text-sm">{{ request.user.last_name|upper }} {{ request.user.first_name|upper }}</p>
                         <p class="text-gray-400 text-xs">
                             {% if request.user.profil.is_artisan %}

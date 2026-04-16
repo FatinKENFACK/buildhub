@@ -31,8 +31,30 @@ class InscriptionPro(forms.ModelForm):
         })
         self.fields['telephone2'].widget.attrs.update({
             'placeholder': '+237 6XX XX XX XX',
-            'maxlength': '15'
+            'maxlength': '15' 
         })
     
-    
+# edition du profil
+class ArtisanEditForm(forms.ModelForm):
+    class Meta:
+        model = Artisan
+        fields = [
+            'date_naissance', 'sexe', 'nationalite', 
+            'telephone1', 'telephone2',
+            'metier_principal', 'annees_experiences', 'niveau_formation',
+            'registre_commercial', 'description',
+            'photo_profil_pro',
+            'ville_principale', 'quartier_intervention', 'rayon', 
+            'adresse', 'disponibilite',
+        ]
+        widgets = {
+            'description': forms.Textarea(attrs={'rows': 5, 'placeholder': 'Décrivez votre expérience...'}),
+            'quartier_intervention': forms.Textarea(attrs={'rows': 4}),
+            'date_naissance': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['telephone1'].widget.attrs.update({'maxlength': '15', 'placeholder': '+237 690 12 34 56'})
+        self.fields['telephone2'].widget.attrs.update({'maxlength': '15', 'placeholder': '+237 690 12 34 56'})
     

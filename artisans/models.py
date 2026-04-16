@@ -4,6 +4,8 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import User
 from clients.models import Demande
+from datetime import timedelta
+from django.utils import timezone
 
 class Devis(models.Model):
     
@@ -16,7 +18,7 @@ class Devis(models.Model):
     demande = models.ForeignKey(Demande, on_delete=models.CASCADE, related_name="devis")
     artisan = models.ForeignKey(User, on_delete=models.CASCADE)
     montant = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    delai = models.IntegerField()
+    delai = models.IntegerField(default=1)
     message = models.TextField()
     statut = models.CharField(max_length=20, choices=STATUT_CHOICES, default='en_attente')
     date_creation = models.DateTimeField(auto_now_add=True)
@@ -24,6 +26,13 @@ class Devis(models.Model):
     def __str__(self):
         return f"Devis {self.demande.titre} - {self.montant}"
     
+    @property
+    def date_limite(self):
+        return self.date_creation + timedelta(days=self.delai)
+
+    @property
+    def jours_restants(self):
+        return (self.date_limite.date() - timezone.now().date()).days
     
 class Projet(models.Model):
     STATUT_CHOIX =[
