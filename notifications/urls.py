@@ -1,10 +1,8 @@
+from django.urls import path
+from . import views
 
+app_name = 'notifications'
 
-from os import path
-
-from notifications.views import clear_notifications
-
-urlpatterns = [ 
-    path('clear-notifications/', clear_notifications, name='clear_notifications'),
-    
+urlpatterns = [
+    path('', views.notifications, name='notifications')
 ]

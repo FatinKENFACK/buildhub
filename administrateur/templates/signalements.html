@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% block navbar %}
+
+<section>
+    <div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full">
+
+        <nav class="flex justify-between items-center h-16 px-4 md:px-12">
+
+            <!-- LOGO -->
+            <h3 class="text-xl md:text-2xl lg:text-3xl font-bold">
+                Buil<span class="text-blue-500">Hub</span>
+                <span class="ml-2 text-xs bg-red-500 text-white px-2 py-1 rounded-full">Admin</span>
+            </h3>
+
+            <!-- MENU DESKTOP -->
+            <div class="hidden md:flex items-center gap-6">
+
+                <a href="{% url 'admins' %}" class="hover:text-blue-500 text-gray-600">
+                    Tableau de bord
+                </a>
+
+                <a class="hover:text-blue-500 text-gray-600" href="{% url 'utilisateurs' %}">
+                    Utilisateurs
+                </a>
+
+                <a class="hover:text-blue-500 text-gray-600" href="{% url 'moderation' %}">
+                    Modération
+                </a>
+
+                <a class="hover:text-blue-500 text-gray-600" href="{% url 'statistiques' %}">
+                    Statistiques
+                </a>
+
+                <div class="flex items-center gap-1">
+                    <a class="bg-blue-100 text-blue-500 rounded-lg px-3 py-1 font-bold" href="#">
+                        Signalements
+                    </a>
+                    <span
+                        class="bg-red-500 animate-ping duration-100 w-4 h-4 flex justify-center items-center text-white text-xs px-2 rounded-full">5</span>
+                </div>
+
+                <!-- Profil Admin -->
+                  <div class="flex items-center gap-2 border-l pl-4 border-gray-300">
+                    <div>
+                        <p class="text-gray-700 text-sm font-semibold">{{ user.username|upper }}</p>
+                        <p class="text-red-500 text-xs font-bold">
+                            Administrateur
+                        </p>
+                    </div>
+
+                    <div
+                        class="w-10 h-10 flex items-center justify-center bg-red-500 text-white font-bold rounded-full">
+                        {{ user.username|slice:":2"|upper }}
+                    </div>
+                </div>
+
+                <form action="{% url 'deconnexion' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="cursor-pointer hover:text-red-500 text-gray-600 font-medium">
+                        Déconnexion
+                    </button>
+                </form>
+
+            </div>
+
+            <!-- HAMBURGER -->
+            <button id="menu-btn" class="md:hidden text-2xl">
+                ☰
+            </button>
+
+        </nav>
+
+        <!-- MENU MOBILE -->
+        <div id="mobile-menu"
+            class="hidden fixed top-16 right-0 w-3/4 max-w-sm h-screen bg-white shadow-lg p-6 flex-col gap-6 z-40 overflow-y-auto">
+
+            <a href="#" class="text-blue-500 font-bold">Tableau de bord</a>
+            <a href="#" class="text-gray-700">Utilisateurs</a>
+            <a href="#" class="text-gray-700">Modération</a>
+            <a href="#" class="text-gray-700">Statistiques</a>
+
+            <div class="flex items-center gap-2">
+                <a href="#" class="text-gray-700">Signalements</a>
+                <span class="bg-red-500 text-white text-xs px-2 rounded-full w-4 h-4">5</span>
+            </div>
+
+              <div class="flex items-center gap-2 border-l pl-4 border-gray-300">
+                    <div>
+                        <p class="text-gray-700 text-sm font-semibold">{{ user.username|upper }}</p>
+                        <p class="text-red-500 text-xs font-bold">
+                            Administrateur
+                        </p>
+                    </div>
+
+                    <div
+                        class="w-10 h-10 flex items-center justify-center bg-red-500 text-white font-bold rounded-full">
+                        {{ user.username|slice:":2"|upper }}
+                    </div>
+                </div>
+
+            <form action="{% url 'deconnexion' %}" method="POST" class="border-t pt-4">
+                {% csrf_token %}
+                <button type="submit" class="w-full bg-red-500 text-white p-2 rounded-lg text-center hover:bg-red-600">
+                    Déconnexion
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+
+<section class="bg-linear-to-br from-gray-50 via-white to-blue-50 min-h-screen pt-24 px-4 md:px-8 lg:px-12 pb-12">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2 flex items-center gap-3">
+            Signalements <span class="text-red-500 text-2xl">(5 en attente)</span>
+        </h1>
+
+        <div class="bg-white rounded-2xl shadow overflow-hidden">
+            <table class="w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-4 text-left">Type</th>
+                        <th class="px-6 py-4 text-left">Contenu</th>
+                        <th class="px-6 py-4 text-left">Signalé par</th>
+                        <th class="px-6 py-4 text-left">Date</th>
+                        <th class="px-6 py-4 text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+
+                    {% for s in signalements %}
+
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4"><span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs">
+                               {{ s.type|title }}</span></td>
+                        <td class="px-6 py-4 text-sm">{{ s.contenu|truncatechars:50 }}</td>
+                        <td class="px-6 py-4">{{ s.auteur.first_name }} {{ s.auteur.last_name }}</td>
+                        <td class="px-6 py-4 text-sm text-gray-500">{{ s.created_at|date:"d M Y H:i" }}</td>
+                        <td class="px-6 py-4 text-center">
+
+                            {% if s.statut == "en_attente" %}
+
+
+                            <a href="{% url 'valider_signalement' s.id %}" class="text-green-600 hover:underline mr-3">
+                                Valider
+                            </a>
+
+                            <a href="{% url 'rejeter_signalement' s.id %}" class="text-red-600 hover:underline">
+                                Rejeter
+                            </a>
+
+                            {% elif s.statut == "valide" %}
+
+                            <span class="text-green-600 text-xs font-semibold">
+                                Validé
+                            </span>
+
+                            {% else %}
+
+                            <span class="text-red-600 text-xs font-semibold">
+                                Rejeté
+                            </span>
+
+                            {% endif %}
+
+                        </td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="5" class="text-center py-6 text-gray-500">
+                            Aucun signalement pour le moment
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Script mobile
+</script>
+
+{% endblock %}

@@ -1,0 +1,83 @@
+{% load tailwind_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BuildHub</title>
+
+    <link rel="stylesheet" href="{% static 'first/css/inp.css' %}">
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    {% tailwind_css %}
+</head>
+
+<body class="scroll-smooth">
+
+
+
+    <section class="min-h-screen bg-blue-100 flex items-center justify-center p-4">
+
+        {% if messages %}
+        <div class="fixed top-20 right-5 z-50 space-y-2">
+            {% for message in messages %}
+            <div class="px-4 py-2 rounded text-white
+            {% if message.tags == 'success' %}bg-green-500
+            {% elif message.tags == 'error' %}bg-red-500
+            {% else %}bg-blue-500{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="bg-black/90 rounded-lg m-5 p-5 ">
+            <div class="">
+                <div class="flex items-center justify-center gap-4 text-white">
+                    <p class="text-xl">Build<span class="text-blue-500">Hub</span></p>
+                    <p class="bg-red-500 p-1 rounded-full">Admin</p>
+                </div>
+                <p class="text-sm text-gray-300">Accès reservés aux administrateurs de la plateforme.</p>
+            </div>
+
+            <!-- formulaire de connexion pur l'admin -->
+            <form action="" method="POST" class="text-white mb-2 mt-2">
+                {% csrf_token %}
+
+                <div class="">
+                    <div>
+                        <label for="">Nom d'utilisateur</label>
+                        <input type="text" name="username" required placeholder="ex: admin"
+                            class="w-full border focus focus:ring-2 focus:ring-blue-500 outline-none rounded-xl p-2 m-2 border-blue-500">
+                    </div>
+
+                    <div>
+                        <label for="">Email d'utilisateur</label>
+                        <input type="email" name="email" required placeholder="admin@gmail.com"
+                            class="w-full border focus focus:ring-2 focus:ring-blue-500 outline-none rounded-xl p-2 m-2 border-blue-500">
+                    </div>
+
+                    <div>
+                        <label for="">Mot de passe</label>
+                        <input type="password" name="password" required placeholder="********"
+                            class="w-full border focus focus:ring-2 focus:ring-blue-500 outline-none rounded-xl p-2 m-2 border-blue-500">
+                    </div>
+
+                    <button
+                        class="bg-blue-500 hover:bg-blue-700 w-full p-2 rounded-lg font-bold mb-1 ml-2 cursor-pointer">
+                        Se connecter
+                    </button>
+
+                    <div class="">
+                        <p class="text-sm">Vous n'êtes pas administrateur? <a href="#" class="text-blue-500 ">Retour a
+                                l'accueil</a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </section>
+</body>
+
+</html>

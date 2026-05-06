@@ -1,31 +1,32 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const sections = document.querySelectorAll("section");
+
+    const sections = document.querySelectorAll("section[id]");
     const navLinks = document.querySelectorAll(".nav-link");
 
-    window.addEventListener("scroll", () => {
+    function activateLink() {
 
-        let current = "";
+        let scrollY = window.scrollY;
 
         sections.forEach(section => {
 
             const sectionTop = section.offsetTop - 150;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute("id");
 
-            if (window.scrollY >= sectionTop) {
-                current = section.getAttribute("id")
+            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+
+                navLinks.forEach(link => {
+                    link.classList.remove("text-blue-500", "font-bold");
+
+                    if (link.getAttribute("href").includes("#" + sectionId)) {
+                        link.classList.add("text-blue-500", "font-bold");
+                    }
+                });
+
             }
 
         });
+    }
 
-        navLinks.forEach(link => {
-
-            link.classList.remove("font-bold");
-
-            if (link.getAttribute("href") === "#" + current) {
-
-                link.classList.add("font-bold")
-            }
-
-        });
-    });
-
+    window.addEventListener("scroll", activateLink);
 });

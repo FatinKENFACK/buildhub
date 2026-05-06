@@ -4,7 +4,11 @@
 <!-- chargement des fichiers static -->
 {% load static %}
 
-{% block navbar %}
+
+{% block content %}
+
+{% block nav %}    
+    
 <div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full transition-colors duration-300">
     <nav class="flex justify-between items-center h-16 ml-12 mr-12">
         <div>
@@ -55,6 +59,7 @@
             Bienvenue M. <span class="font-bold text-blue-500">{{ request.user.last_name }}</span> pour la création de votre compte en temps que artisan sur <span class="font-bold">Build</span><span class="text-blue-500 font-bold">Hub</span>, nous avions besoin que vous suiviez les 05 étapes pas à pas
         </p>
         </div>
+{% endblock %}
 
 
 
@@ -891,9 +896,6 @@
         easing: 'ease-in-out'
     });
 </script>
+{% endblock content %}
 
-{% block content %}
 
-{% endblock %}
-
-{% endblock %}

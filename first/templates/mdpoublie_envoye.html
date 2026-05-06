@@ -3,11 +3,24 @@
 
 {% load static %}
 
-{% block navbar %}
 
+{% block content %}
+<div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full transition-colors duration-300">
+    <nav class="flex justify-between items-center h-16 ml-12 mr-12">
+        <div>
+            <h3 class="sm:text-xl md:text-2xl lg:text-3xl font-bold">Build<span class="text-blue-500">Hub</span></h3>
+        </div>
+        <div class="flex list-none gap-x-10">
+            <li>
+                <a class="hover:text-blue-500 text-gray-600 nav-link sm:text-md md:text-lg lg:text-xl"
+                    href="{% url 'home' %}">Retout a l'accueil</a>
+            </li>
 
-
-
+            </li>
+        </div>
+    </nav>
+</div>
+    
 <section class="px-4 p-20 bg-blue-100 w-full h-screen" data-aos="fade-right" data-aos-duration="800">
       <div class="p-20">
      <div class="text-center p-10">
@@ -28,9 +41,4 @@
         easing: 'ease-in-out'
     });
 </script>
-
-{% block content %}
-
-{% endblock %}
-
-{% endblock %}
+{% endblock content %}

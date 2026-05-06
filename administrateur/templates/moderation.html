@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{% block navbar %}
+
+<section>
+    <div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full">
+
+        <nav class="flex justify-between items-center h-16 px-4 md:px-12">
+
+            <!-- LOGO -->
+            <h3 class="text-xl md:text-2xl lg:text-3xl font-bold">
+                Buil<span class="text-blue-500">Hub</span>
+                <span class="ml-2 text-xs bg-red-500 text-white px-2 py-1 rounded-full">Admin</span>
+            </h3>
+
+            <!-- MENU DESKTOP -->
+            <div class="hidden md:flex items-center gap-6">
+
+                <a href="{% url 'admins' %}" class="hover:text-blue-500 text-gray-600">
+                    Tableau de bord
+                </a>
+
+                <a class="hover:text-blue-500 text-gray-600" href="{% url 'utilisateurs' %}">
+                    Utilisateurs
+                </a>
+
+                <a class="bg-blue-100 text-blue-500 rounded-lg px-3 py-1 font-bold" href="#">
+                    Modération
+                </a>
+
+                <a class="hover:text-blue-500 text-gray-600" href="{% url 'statistiques' %}">
+                    Statistiques
+                </a>
+
+                <div class="flex items-center gap-1">
+                    <a class="hover:text-blue-500 text-gray-600" href="{% url 'signalements' %}">
+                        Signalements
+                    </a>
+                    <span class="bg-red-500 animate-ping duration-100 w-4 h-4 flex justify-center items-center text-white text-xs px-2 rounded-full">5</span>
+                </div>
+
+                <!-- Profil Admin -->
+                 <div class="flex items-center gap-2 border-l pl-4 border-gray-300">
+                    <div>
+                        <p class="text-gray-700 text-sm font-semibold">{{ user.username|upper }}</p>
+                        <p class="text-red-500 text-xs font-bold">
+                            Administrateur
+                        </p>
+                    </div>
+
+                    <div
+                        class="w-10 h-10 flex items-center justify-center bg-red-500 text-white font-bold rounded-full">
+                        {{ user.username|slice:":2"|upper }}
+                    </div>
+                </div>
+
+                <form action="{% url 'deconnexion' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="cursor-pointer hover:text-red-500 text-gray-600 font-medium">
+                        Déconnexion
+                    </button>
+                </form>
+
+            </div>
+
+            <!-- HAMBURGER -->
+            <button id="menu-btn" class="md:hidden text-2xl">
+                ☰
+            </button>
+
+        </nav>
+
+        <!-- MENU MOBILE -->
+        <div id="mobile-menu" class="hidden fixed top-16 right-0 w-3/4 max-w-sm h-screen bg-white shadow-lg p-6 flex-col gap-6 z-40 overflow-y-auto">
+
+            <a href="#" class="text-blue-500 font-bold">Tableau de bord</a>
+            <a href="#" class="text-gray-700">Utilisateurs</a>
+            <a href="#" class="text-gray-700">Modération</a>
+            <a href="#" class="text-gray-700">Statistiques</a>
+
+            <div class="flex items-center gap-2">
+                <a href="#" class="text-gray-700">Signalements</a>
+                <span class="bg-red-500 text-white text-xs px-2 rounded-full w-4 h-4">5</span>
+            </div>
+
+              <div class="flex items-center gap-2 border-l pl-4 border-gray-300">
+                    <div>
+                        <p class="text-gray-700 text-sm font-semibold">{{ user.username|upper }}</p>
+                        <p class="text-red-500 text-xs font-bold">
+                            Administrateur
+                        </p>
+                    </div>
+
+                    <div
+                        class="w-10 h-10 flex items-center justify-center bg-red-500 text-white font-bold rounded-full">
+                        {{ user.username|slice:":2"|upper }}
+                    </div>
+                </div>
+
+            <form action="{% url 'deconnexion' %}" method="POST" class="border-t pt-4">
+                {% csrf_token %}
+                <button type="submit" class="w-full bg-red-500 text-white p-2 rounded-lg text-center hover:bg-red-600">
+                    Déconnexion
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}
+
+<section class="bg-linear-to-br from-gray-50 via-white to-blue-50 min-h-screen pt-24 px-4 md:px-8 lg:px-12 pb-12">
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Modération des contenus</h1>
+        <p class="text-gray-600 mb-8">Contrôlez les avis, photos et descriptions publiés sur la plateforme</p>
+
+        <!-- Filtres -->
+        <div class="bg-white rounded-2xl shadow p-5 mb-6">
+            <div class="flex flex-col md:flex-row gap-4">
+                <select class="px-4 py-3 border border-gray-300 rounded-xl">
+                    <option>Tous les contenus</option>
+                    <option>Avis</option>
+                    <option>Photos de projets</option>
+                    <option>Descriptions</option>
+                </select>
+                <select class="px-4 py-3 border border-gray-300 rounded-xl">
+                    <option>Signalés récemment</option>
+                    <option>En attente</option>
+                    <option>Approuvés</option>
+                    <option>Rejetés</option>
+                </select>
+                <input type="text" placeholder="Rechercher un contenu..." class="flex-1 px-4 py-3 border border-gray-300 rounded-xl">
+            </div>
+        </div>
+
+        <!-- Liste des contenus à modérer -->
+        <div class="space-y-6">
+            <!-- Exemple 1 -->
+            <div class="bg-white rounded-2xl shadow p-6 border border-red-100">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-bold rounded-full">Avis signalé</span>
+                        <p class="font-semibold mt-3">Installation plomberie - Ange KENFACK</p>
+                        <p class="text-gray-600 text-sm">"Le travail est très mal fait, l'artisan n'est pas venu à l'heure..."</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs text-gray-500">Il y a 2h</p>
+                        <button class="mt-4 px-5 py-2 bg-green-600 text-white rounded-xl text-sm font-medium">Approuver</button>
+                        <button class="mt-2 px-5 py-2 bg-red-600 text-white rounded-xl text-sm font-medium">Rejeter</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Autres exemples similaires... -->
+        </div>
+    </div>
+</section>
+
+<script>
+    // Même script mobile que les autres pages
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        mobileMenu.classList.toggle('flex');
+    });
+</script>
+
+{% endblock %}

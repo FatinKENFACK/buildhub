@@ -1,10 +1,8 @@
-<!-- appel du menu de navigation -->
 {% extends "base.html" %}
 
-<!-- chargement des fichiers static -->
 {% load static %}
 
-{% block navbar %}
+{% block content %}
 <div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full transition-colors duration-300">
     <nav class="flex justify-between items-center h-16 ml-12 mr-12">
         <div>
@@ -25,6 +23,7 @@
 </div>
 
 <!-- formulaire de connexion  -->
+    
 
 <section class="px-4 p-20 bg-blue-100 w-full h-screen" data-aos="fade-right" data-aos-duration="800">
 
@@ -39,18 +38,7 @@
                 <p class="text-sm sm:text-md md:text-xl lg:text-xl text-gray-600 text-center">Connectez-vous à votre
                     compte</p>
             </div>
-            {% if messages %}
-            <div class="space-y-2 mb-4">
-                {% for message in messages %}
-                <div class="px-4 py-2 rounded-lg shadow  text-center
-                {% if message.tags == 'error' %} bg-red-500
-                {% endif %}
-            ">
-                    {{ message }}
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
+           
             <!-- champ de saisis -->
             <form action="{% url 'connexion' %}" method="POST" class="space-y-2">
                 {% csrf_token %}
@@ -104,8 +92,5 @@
     });
 </script>
 
-{% block content %}
-
-{% endblock %}
 
 {% endblock %}

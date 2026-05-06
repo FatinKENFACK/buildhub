@@ -1,12 +1,11 @@
 from datetime import timezone
-
 from django.shortcuts import get_object_or_404, redirect, render
-
+from administrateur.views import admins
 from notifications.models import Notification
 from .forms import ArtisanEditForm, InscriptionPro
 from clients.models import Demande
 from artisans.models import Artisan, Devis
-from django.contrib.auth import logout
+from django.contrib.auth import get_user_model, logout
 from django.contrib import messages
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
@@ -14,7 +13,7 @@ from decimal import ROUND_HALF_UP, Decimal
 from django.contrib import messages
 
 # tableau de board de l'artian
-@login_required(login_url='connexion') 
+@login_required(login_url='connexion')
 def dashart(request):
     # utilisateur doit etre connecte
     if not request.user.is_authenticated:
@@ -27,33 +26,35 @@ def dashart(request):
     except Artisan.DoesNotExist:
         messages.error(request, "Vous n'avez pas encore complété votre profil artisan.")
         return redirect('controlArt')
+    
+    if not artisan.est_valide:
+        messages.warning(request, "Votre compte est en attente de validation par l'administrateur")
+        return redirect('home')
 
     demandes = Demande.objects.filter(
          categorie__iexact=artisan.metier_principal.strip()
     )
     devis = Devis.objects.filter(artisan=artisan.user)
 
+    devis_attent = Devis.objects.filter(statut='En attente').count()
+    
+
     notifications = Notification.objects.filter(
-        user=request.user,
-        is_read=False
+        user=request.user
     ).order_by('-created_at')[:5]
+
+    
 
     context = {
         'demandes': demandes,
         'devis': devis,
+        'devis_attent' : devis_attent,
         'total_demandes': demandes.count(),
         'devis_envoye': devis.count(),
         'notifications': notifications,
     }
 
-    return render(request, 'dashart.html', 
-        {
-            'context':context, 
-            'demandes': demandes, 
-            'devis':devis, 
-            'notifications': notifications,
-         }
-    )
+    return render(request, 'dashart.html', context )
 
 ############3 zone de vevis #####################
 @login_required(login_url='connexion') 
@@ -196,6 +197,7 @@ def controlArt(request):
                 with transaction.atomic():
                     artisan = form.save(commit=False)
                     artisan.user = request.user
+                    artisan.est_valide = False
                     if artisan.telephone1:
                         artisan.telephone1 = ''.join(filter(str.isdigit, artisan.telephone1))[-9:]
                     if artisan.telephone2:
@@ -216,6 +218,19 @@ def controlArt(request):
         else:
             print("Erreurs du formulaire :", form.errors)
             messages.error(request, "Veuillez corriger les erreurs dans le formulaire.")
+
+    User = get_user_model()
+
+    admins = User.objects.filter(is_superuser=True)
+
+    if not admins.exists():
+        print(" Aucun admin trouvé")
+    else:
+        for admin in admins:
+            Notification.objects.create(
+                user=admin,
+                message=f"Nouvel artisan inscrit : {request.user.first_name}",
+            )
 
     return render(request, 'controlArt.html', {'form': form})
 
@@ -247,13 +262,3 @@ def edit_artisan(request):
 def deconnexion(request):
     logout(request)
     return redirect( 'home')
-
-
-
-# notification
-# Notification.objects.create(
-#     user=Demande.user,  
-#     titre="Nouveau devis",
-#     message=f"Vous avez reçu un devis pour '{Demande.titre}'",
-#     type="warning"
-# )

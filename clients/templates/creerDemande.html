@@ -12,11 +12,15 @@
             </h3>
 
             <div class="hidden md:flex items-center gap-6">
-                <a href="{% url 'dashboard' %}" class="text-gray-600 hover:text-blue-500">Dashboard</a>
+                <a href="{% url 'dashboard' %}" class="text-gray-600 hover:text-blue-500">Tableau de bord</a>
                 <a href="{% url 'demandes' %}" class="text-gray-600 hover:text-blue-500">Mes demandes</a>
+                <div class="flex items-center gap-1">
+                    <a class="hover:text-blue-500 text-gray-600" href="{% url 'chat' %}">Messages</a>
+                    <span class="bg-red-500 animate-ping duration-100 w-4 h-4 flex justify-center items-center text-white text-xs px-2 rounded-full">3</span>
+                </div>
 
                 <div class="flex items-center gap-2">
-                    <div>
+                    <div class="text-center">
                         <p class="text-gray-500 text-sm">{{ request.user.last_name }} {{ request.user.first_name }}</p>
                         <p class="text-gray-400 text-xs">
                             {% if request.user.profil.is_artisan %}
@@ -31,17 +35,76 @@
                         {{ request.user.last_name|slice:":1"|upper }}{{ request.user.first_name|slice:":1"|upper }}
                     </div>
                 </div>
-                  <form action="{% url 'deconnexion' %}" method ="POST">
+                <form action="{% url 'deconnexion' %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="cursor-pointer hover:text-blue-500 text-gray-600">
                         Deconnexion
                     </button>
                 </form>
             </div>
+            <button id="dash-menu-btn" class="md:hidden text-2xl">☰</button>
+
         </nav>
+        <!-- menu mobile -->
+
+         <div id="dash-mobile-menu"
+            class="hidden fixed top-16 right-0 w-3/4 max-w-sm h-screen bg-white shadow-lg p-6 flex-col gap-6 z-40">
+
+            <a href="{% url 'dashboard' %}" class="text-gray-700 hover:text-blue-500">Tableau de bord</a>
+            <a href="{% url 'demandes' %}" class="text-gray-700 hover:text-blue-500">Mes demandes</a>
+
+            <div class="flex items-center gap-2">
+                <a href="{% url 'chat' %}" class="text-gray-700 hover:text-blue-500">Messages</a>
+                <span class="bg-red-500 animate-ping duration-100 text-white text-xs px-2 rounded-full w-4 h-4 flex items-center justify-center">3</span>
+            </div>
+
+             <div class="flex items-center gap-2">
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">
+                            {{ request.user.last_name|upper }} {{ request.user.first_name|upper }}
+                        </p>
+                        <p class="text-gray-400 text-xs">
+                            {% if request.user.profil.is_artisan %}Artisan{% else %}Client{% endif %}
+                        </p>
+                    </div>
+                    <div class="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
+                        <a href="#">
+                            {{ request.user.last_name|slice:":1"|upper }}{{ request.user.first_name|slice:":1"|upper }}
+                        </a>
+                    </div>
+                </div>
+
+          <form action="{% url 'deconnexion' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="cursor-pointer hover:text-blue-500 text-gray-600">
+                        Deconnexion
+                    </button>
+                </form>
+
+        </div>
+
     </div>
 
 </section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btn = document.getElementById("dash-menu-btn");
+        const menu = document.getElementById("dash-mobile-menu");
+
+        btn.addEventListener("click", () => {
+            if (menu.classList.contains("hidden")) {
+                menu.classList.remove("hidden");
+                menu.style.display = "flex";
+                menu.style.flexDirection = "column";
+            } else {
+                menu.classList.add("hidden");
+                menu.style.display = "";
+                menu.style.flexDirection = "";
+            }
+        });
+    });
+</script>
 
 <!-- FORMULAIRE -->
 
@@ -111,7 +174,7 @@
             <div class="flex justify-between mt-6">
                 <a href="{% url 'demandes' %}" class="px-4 py-2 border rounded-lg">Annuler</a>
                 <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600">
-                        Publier
+                    Publier
                 </button>
             </div>
 

@@ -4,23 +4,38 @@
 <!-- chargement des fichiers static -->
 {% load static %}
 
-{% block navbar %}
+{% block content %}
 
+<div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full transition-colors duration-300">
+    <nav class="flex justify-between items-center h-16 ml-12 mr-12">
+        <div>
+            <h3 class="sm:text-xl md:text-2xl lg:text-3xl font-bold">Build<span class="text-blue-500">Hub</span></h3>
+        </div>
+        <div class="flex list-none gap-x-10">
+            <li>
+                <a class="hover:text-blue-500 text-gray-600 nav-link sm:text-md md:text-lg lg:text-xl"
+                    href="{% url 'home' %}">Retout a l'accueil</a>
+            </li>
+
+            </li>
+        </div>
+    </nav>
+</div>
 
 <!-- formulaire de connexion  -->
 
-<section class="px-4 p-20 bg-blue-100 w-full h-screen" data-aos="fade-right" data-aos-duration="800">
-
-    <!-- ma div blanche en font du formulaire -->
+<section class="px-4 p-20 bg-blue-100 w-full h-screen flex justify-center items-center"  data-aos="fade-right" data-aos-duration="800">
 
     <div class=" bg-white max-w-xl p-12 mx-auto  rounded-lg shadow-lg ">
         <div class="">
             <!-- main texte  -->
             <div class=" mb-4">
-                <h1 class="text-xl sm:text-xl md:text-2xl lg:text-3xl font-bold text-center mb-2">Mot de passe oublié<span class="text-blue-500"></h1>
-                <p class="text-sm sm:text-md md:text-xl lg:text-xl text-gray-600 text-center">Pour plus de sécurité, veillez entrer votre adresse email</p>
+                <h1 class="text-xl sm:text-xl md:text-2xl lg:text-3xl font-bold text-center mb-2">Mot de passe
+                    oublié<span class="text-blue-500"></h1>
+                <p class="text-sm sm:text-md md:text-xl lg:text-xl text-gray-600 text-center">Pour plus de sécurité,
+                    veillez entrer votre adresse email</p>
             </div>
-           
+
             <!-- champ de saisis -->
             <form method="POST" class="space-y-2">
                 {% csrf_token %}
@@ -32,7 +47,7 @@
 
                 <!-- bouton de connexion -->
                 <div class="text-center mt-3">
-                    <button 
+                    <button
                         class="text-md font-bold w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm rounded-md text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">Confirmer</button>
                 </div>
             </form>
@@ -53,8 +68,5 @@
     });
 </script>
 
-{% block content %}
-
-{% endblock %}
-
-{% endblock %}
+{% endblock content %}
+     

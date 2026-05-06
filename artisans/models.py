@@ -52,7 +52,7 @@ class Projet(models.Model):
         return f"Projet {self.id} - {self.statut}"
     
 class Artisan(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='artisan')
     # informations personnelles sur la premiere page du formulaire de l'artisan
     date_naissance = models.DateField()
     sexe = models.CharField(max_length=10)
@@ -60,6 +60,12 @@ class Artisan(models.Model):
     nationalite = models.CharField(max_length=50)
     telephone1 = models.CharField(max_length=15)
     telephone2 = models.CharField(max_length=15)
+    est_valide = models.BooleanField(default=False)
+    STATUT_CHOICES = [
+    ('attente', 'En attente'),
+    ('valide', 'Validé'),
+    ('refuse', 'Refusé'),
+]
     
     # info pro
     metier_principal = models.CharField(max_length=100)

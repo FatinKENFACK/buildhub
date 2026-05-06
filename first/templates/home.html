@@ -30,12 +30,16 @@
                 quelques heures.
             </p>
 
-            <!-- boutons -->
+            <!-- boutons --> 
+             
+                                
             <div class="flex flex-col sm:flex-row gap-4 mt-6">
-                <button class="bg-blue-400 rounded-lg p-3 text-white hover:bg-blue-700 w-full sm:w-auto">
+             <a href="{% url 'creerDemande' %}">
+                 <button class="bg-blue-400 rounded-lg p-3 text-white hover:bg-blue-700 w-full sm:w-auto">
                     Publier une demande
-                </button>
-
+                 </button>
+             </a>
+             
                 <a href="#comment" class="outline p-3 text-blue-500 hover:bg-blue-200 text-center">
                     Comment ça marche ?
                 </a>
@@ -45,7 +49,7 @@
             <div class="grid grid-cols-3 gap-4 mt-8 text-center md:text-left">
 
                 <div>
-                    <p class="text-blue-500 font-bold text-xl md:text-2xl animate-pulse">250 +</p>
+                    <p class="text-blue-500 font-bold text-xl md:text-2xl animate-pulse">{{ artisan }}+</p>
                     <p class="text-gray-500 text-sm md:text-lg">Artisans actifs</p>
                 </div>
 
@@ -82,7 +86,7 @@
 
 <!-- comment ca marche -->
 
-<section id="comment" class="w-full h-screen pt-8">
+<section id="comment" class="w-full h-screen sm:pt-12 md:pt-20 lg:pt-20">
     <div class="mr-12 ml-12 ">
         <div class="text-center justify-center mt-4" data-aos="fade-up">
             <p class="text-2xl sm:text-3xl md:text-5xl lg:text-7xl font-bold mb-1">Comment ça marche ?</p>
@@ -142,7 +146,7 @@
 
 <!-- section services proposés -->
 
-<section id="categorie" class="bg-blue-100 pt-8 w-full h-screen">
+<section id="categorie" class="bg-blue-100 pt-20 w-full h-screen">
     <div class="mr-12 ml-12 ">
         <div class="mt-5" data-aos="fade-up" data-aos-delay="100">
             <p class="font-bold text-2xl sm:text-xl md:text-3xl lg:text-6xl text-center mb-4">Les services que nous
@@ -156,74 +160,80 @@
         <div class="grid grid-cols-4 place-items-center gap-4 mt-10 mb-10 ">
 
             <!-- card plombier  -->
-            <div class="bg-white bg-linear-30 to-blue-200 from-blue-800 rounded-2xl sm:w-17 sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
-                data-aos="fade-up" data-aos-delay="100">
-                <img src="{% static 'first/images/plomb.png' %}" alt="" class="flex justify-center w-8 h-8">
-                <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Plomberie</p>
-                <p class=" sm:text-lg md:text-xl lg:text-2xl text-center">07 artisans</p>
+            <div class="bg-linear-to-tr from-blue-800 to-blue-200 rounded-2xl w-full max-w-40 sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] p-4 flex flex-col items-center justify-center gap-2 hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300" data-aos="fade-up" data-aos-delay="100">
+                <img src="{% static 'first/images/plomb.png' %}" alt=""
+                    class="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14">
+
+                <p class="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-center">
+                    Plomberie
+                </p>
+
+                <p class="text-xs sm:text-sm md:text-base lg:text-lg text-center">
+                    {{ plombier }} artisan(s)
+                </p>
             </div>
 
             <!-- card electricien  -->
 
-            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+            <div class="bg-white rounded-2xl w-full max-w-40 sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] p-4 flex flex-col items-center justify-center gap-2 hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
                 data-aos="fade-up" data-aos-delay="100">
                 <img src="{% static 'first/images/elec.png' %}" alt="" class="flex justify-center w-8 h-8">
                 <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Électricité</p>
-                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">10 artisans</p>
+                <p class="text-xs sm:text-sm md:text-base lg:text-lg text-center">{{ elect }} artisan(s)</p>
             </div>
 
             <!-- card menuisier  -->
 
-            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+            <div class="bg-white rounded-2xl w-full max-w-40 sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] p-4 flex flex-col items-center justify-center gap-2 hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
                 data-aos="fade-up" data-aos-delay="100">
                 <img src="{% static 'first/images/menuis.png' %}" alt="" class="flex justify-center w-8 h-8">
                 <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Menuiserie</p>
-                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">12 artisans</p>
+                <p class="text-xs sm:text-sm md:text-base lg:text-lg text-center">{{ menuisier }} artisan(s)</p>
             </div>
 
             <!-- card macon  -->
 
-            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+            <div class="bg-white rounded-2xl w-full max-w-40 sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] p-4 flex flex-col items-center justify-center gap-2 hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
                 data-aos="fade-up" data-aos-delay="100">
                 <img src="{% static 'first/images/build.png' %}" alt="" class="flex justify-center w-8 h-8">
                 <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Maçonnerie</p>
-                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">40 artisans</p>
+                <p class="text-xs sm:text-sm md:text-base lg:text-lg text-center">{{ maçon }} artisan(s)</p>
             </div>
 
 
             <!-- card carreleur -->
-            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+            <div class="bg-white rounded-2xl w-full max-w-40 sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] p-4 flex flex-col items-center justify-center gap-2 hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
                 data-aos="fade-up" data-aos-delay="100">
                 <img src="{% static 'first/images/autre.png' %}" alt="" class="flex justify-center w-8 h-8">
                 <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Carrelage</p>
-                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">10 artisans</p>
+                <p class="text-xs sm:text-sm md:text-base lg:text-lg text-center">{{ carrelage }} artisan(s)</p>
             </div>
 
             <!-- card peintre -->
-            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+            <div class="bg-white rounded-2xl w-full max-w-40 sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] p-4 flex flex-col items-center justify-center gap-2 hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
                 data-aos="fade-up" data-aos-delay="100">
                 <img src="{% static 'first/images/autre.png' %}" alt="" class="flex justify-center w-8 h-8">
                 <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Peinture</p>
-                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">07 artisans</p>
+                <p class="text-xs sm:text-sm md:text-base lg:text-lg text-center">{{ peintre }} artisan(s)</p>
             </div>
 
-           
+
 
             <!-- card ferraileur -->
-            <div class="bg-white rounded-2xl sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+            <div class="bg-white rounded-2xl w-full max-w-40 sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] p-4 flex flex-col items-center justify-center gap-2 hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
                 data-aos="fade-up" data-aos-delay="100">
                 <img src="{% static 'first/images/autre.png' %}" alt="" class="flex justify-center w-8 h-8">
                 <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Ferraileurs</p>
-                <p class="text-gray-500  sm:text-lg md:text-xl lg:text-2xl text-center">08 artisans</p>
+                <p class="text-xs sm:text-sm md:text-base lg:text-lg text-center">En attente</p>
             </div>
 
 
             <!-- card climatisation -->
-            <div class="bg-white bg-linear-30 to-blue-200 from-blue-800 rounded-2xl sm:w-17 sm:h-14 md:w-33 md:h-26 lg:w-60 lg:h-40 grid place-items-center hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
+            <div class="bg-linear-to-tr from-blue-800 to-blue-200 rounded-2xl w-full max-w-40 sm:max-w-[180px] md:max-w-[220px] lg:max-w-[260px] p-4 flex flex-col items-center justify-center gap-2 hover:cursor-pointer shadow-[0_4px_5px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_10px_rgba(0,0,0,0.5)] hover:-translate-y-2 transition duration-300"
                 data-aos="fade-up" data-aos-delay="100">
                 <img src="{% static 'first/images/autre.png' %}" alt="" class="flex justify-center w-8 h-8">
                 <p class="font-bold sm:text-lg md:text-xl lg:text-2xl text-center">Climatisation</p>
-                <p class=" sm:text-lg md:text-xl lg:text-2xl text-center">05 artisans</p>
+                <p class="text-xs sm:text-sm md:text-base lg:text-lg text-center">En attente</p>
             </div>
 
         </div>
@@ -232,9 +242,9 @@
 
 <!-- section choix de buildhub -->
 
-<section id="avantages" class="w-full h-screen pt-8 bg-blue-100">
+<section id="avantages" class="w-full h-screen sm:pt-12 md:pt-20 lg:pt-20 bg-blue-100">
     <div class="mr-12 ml-12" data-aos="zoom-in" data-aos-delay="">
-        <div class="text-center justify-center mt-8">
+        <div class="text-center justify-center sm:mt-4 md:mt-8 lg:mt-8">
             <p class="text-2xl sm:text-xl md:text-3xl lg:text-6xl font-bold mb-3">Pourquoi choisir Build<span
                     class="text-blue-500">Hub</span> ?</p>
         </div>
@@ -249,7 +259,8 @@
                     </p>
                 </div>
                 <p class="font-bold m-2 text-center  sm:text-xl  md:text-2xl  lg:text-3xl ">Artisans vérifiés</p>
-                <p class="text-gray-500 text-center mr-2 ml-2 mb-3 sm:text-md md:text-lg lg:text-xl ">Tous nos artisans sont vérifiés et notés
+                <p class="text-gray-500 text-center mr-2 ml-2 mb-3 sm:text-md md:text-lg lg:text-xl ">Tous nos artisans
+                    sont vérifiés et notés
                     par la communauté pour votre securité</p>
             </div>
 
@@ -262,7 +273,8 @@
                     </p>
                 </div>
                 <p class="font-bold m-2 text-center sm:text-xl md:text-2xl lg:text-3xl ">Artisans qualifiés</p>
-                <p class="text-gray-500 text-center mr-2 ml-2 mb-3 sm:text-md md:text-lg lg:text-xl">Tous nos artisans possedes de compétences
+                <p class="text-gray-500 text-center mr-2 ml-2 mb-3 sm:text-md md:text-lg lg:text-xl">Tous nos artisans
+                    possedes de compétences
                     prouvées, vérifiés et pret à charbonner</p>
             </div>
 
@@ -275,7 +287,8 @@
                     </p>
                 </div>
                 <p class="font-bold m-2 text-center  sm:text-xl  md:text-2xl  lg:text-3xl ">Réponse rapide</p>
-                <p class="text-gray-500 text-center mr-2 ml-2 mb-3  sm:text-md md:text-lg lg:text-xl ">Recevez vos premiers devis en moins de 24H
+                <p class="text-gray-500 text-center mr-2 ml-2 mb-3  sm:text-md md:text-lg lg:text-xl ">Recevez vos
+                    premiers devis en moins de 24H
                     grace à notre réseau d'artisans actifs
                 </p>
             </div>
@@ -288,11 +301,11 @@
 
 <section class=" bg-linear-to-br from-blue-950 to-blue-700 text-white pt-20 pb-10 h-full w-full">
 
-    <div class="max-w-7xl mx-auto">
+    <div class="max-w-7xl mx-auto ">
 
-        <div class="grid md:grid-cols-4 gap-10 mb-16">
+        <div class="grid md:grid-cols-4 gap-10 mb-16 ">
 
-            <div data-aos="fade-right">
+            <div data-aos="fade-right" class="ml-4">
                 <h2 class="text-4xl font-bold mb-4">
                     Build<span class="text-blue-400">Hub</span>
                 </h2>
@@ -301,17 +314,17 @@
                 </p>
             </div>
 
-            <div data-aos="fade-up">
+            <div data-aos="fade-up" class="ml-4">
                 <h3 class="font-bold text-xl mb-4">Navigation</h3>
                 <ul class="space-y-2 text-gray-300">
-                    <li class="hover:text-blue-400 transition cursor-pointer">Accueil</li>
-                    <li class="hover:text-blue-400 transition cursor-pointer">Comment ça marche</li>
-                    <li class="hover:text-blue-400 transition cursor-pointer">Catégories</li>
-                    <li class="hover:text-blue-400 transition cursor-pointer">Avantages</li>
+                    <li class="hover:text-blue-400 transition cursor-pointer"> <a href="#accueil">Accueil</a> </li>
+                    <li class="hover:text-blue-400 transition cursor-pointer">  <a href="#comment">Comment ça marche</a> </li>
+                    <li class="hover:text-blue-400 transition cursor-pointer">  <a href="#categorie">Catégories</a> </li>
+                    <li class="hover:text-blue-400 transition cursor-pointer">  <a href="#avantages">Avantages</a> </li>
                 </ul>
             </div>
 
-            <div data-aos="fade-up" data-aos-delay="200">
+            <div data-aos="fade-up" data-aos-delay="200" class="ml-4">
                 <h3 class="font-bold text-xl mb-4">Services</h3>
                 <ul class="space-y-2 text-white">
                     <li>Plomberie</li>
@@ -321,7 +334,7 @@
                 </ul>
             </div>
 
-            <div data-aos="fade-right">
+            <div data-aos="fade-right" class="ml-4">
                 <h3 class="font-bold text-xl mb-4">Contact</h3>
                 <p class="text-gray-300">📧 buildhub@gmail.com</p>
                 <p class="text-gray-300">📞 672-69-16-67</p>
@@ -330,7 +343,7 @@
 
         </div>
 
-        <div class="border-t border-blue-800 pt-6 text-center text-gray-400">
+        <div class="border-t border-blue-800 pt-6 text-center text-gray-400 ml-4">
             © 2026 BuildHub — Tous droits réservés
         </div>
 
@@ -354,5 +367,4 @@
 </body>
 
 </html>
-
 {% endblock %}

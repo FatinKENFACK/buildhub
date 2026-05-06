@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from administrateur.models import Signalement
 from artisans.models import Artisan, Devis, Projet
 from notifications.models import Notification
 from .forms import RegisterForm
@@ -129,6 +130,8 @@ def dashboard(request):
     
     if profil.is_artisan:
         devis = Devis.objects.filter(artisan=request.user)
+        projets = Projet.objects.none()
+
     else:
         devis = Devis.objects.filter(demande__user=request.user)
         projets = Projet.objects.filter(client=request.user)
@@ -186,6 +189,21 @@ def demandes(request):
 # 2 creer les demandes
 @login_required(login_url='connexion')
 def creerDemande(request):
+    # verification si l'utilisateur est connecte
+    if not request.user.is_authenticated:
+        messages.error(request, "Veillez vous connecter en temps que client pour publier une demande de travaux")
+        return redirect('connexion')
+    
+    # bloque l'artisan
+    if hasattr(request.user, 'artisan'):
+        messages.error(request, "Vous êtes un artisan et vous ne pouvez pas publier une demande ")
+        return redirect('home')
+    
+    # autorise uniquement le client
+    if not hasattr(request.user, 'profil'):
+        messages.error(request, "Accès refusé")
+        return redirect('home')
+    
     form = DemandeForm()
     
     if request.method == 'POST':
@@ -212,7 +230,7 @@ def modifierDemande(request, id):
     form = DemandeForm(instance=demande)
     
     if request.method == 'POST':
-        print("Reçu")
+        messages.success(request, "Reçu")
         form = DemandeForm(request.POST, instance=demande)
         if form.is_valid():
             form.save()
@@ -274,6 +292,19 @@ def devisrefuser(request, devis_id):
         devis.save()
 
     return redirect('dashboard')
+
+# signal du client
+# def signaler_utilisateur(request, user_id):
+#     cible = get_object_or_404(User, id=user_id)
+
+#     Signalement.objects.create(
+#         auteur=request.user,
+#         cible=cible,
+#         type="autre",
+#         contenu="Signalement depuis la plateforme"
+#     )
+
+#     return redirect('dashboard')
 
 #################### discussion entre artisan et client ####################
 def chat(request):

@@ -3,11 +3,119 @@
 
 {% block content %}
 
-{% block navbar %}
+
+{% block nav %}
+        
+
+<section>
+    <div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full">
+
+        <nav class="flex justify-between items-center h-16 px-4 md:px-12">
+
+            <!-- LOGO -->
+            <h3 class="text-xl md:text-2xl lg:text-3xl font-bold">
+                Buil<span class="text-blue-500">Hub</span>
+            </h3>
+
+            <!-- MENU DESKTOP -->
+            <div class="hidden md:flex items-center gap-6">
+               
+                    <a class="bg-blue-100 text-blue-500 rounded-lg px-3 py-1 font-bold" href="{% url 'dashart' %}">
+                        Tableau de Bord
+                    </a>
+                <!-- Profil -->
+                <div class="flex items-center gap-2">
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">{{ request.user.last_name|upper }}
+                            {{ request.user.first_name|upper}}</p>
+                        <p class="text-gray-400 text-xs">
+                            Artisan en <span class="text-blue-500 font-bold">
+                                {{ request.user.artisan.metier_principal }}
+                            </span>
+                        </p>
+                    </div>
+                    <div
+                        class="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
+                        <a href="{% url 'edit_artisan' %}">
+                            {{ request.user.last_name|slice:":1"|upper }}{{ request.user.first_name|slice:":1"|upper }}
+                        </a>
+                    </div>
+                </div>
+
+                <form action="{% url 'deconnexion' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="cursor-pointer hover:text-blue-500 text-gray-600">
+                        Deconnexion
+                    </button>
+                </form>
+            </div>
+
+            <!-- HAMBURGER -->
+            <button id="dash-menu-btn" class="md:hidden text-2xl">☰</button>
 
 
+        </nav>
 
-{% endblock %}
+        <!-- MENU MOBILE -->
+        <div id="dash-mobile-menu"
+            class="hidden fixed top-16 right-0 w-3/4 max-w-sm h-screen bg-white shadow-lg p-6 flex-col gap-6 z-40">
+            <a class="bg-blue-100 text-blue-500 rounded-lg px-3 py-1 font-bold" href="{% url 'dashart' %}">
+                Tableau de bord
+            </a>
+            
+            <!-- Profil -->
+            <div class="flex items-center gap-2">
+                <div class="text-center">
+                    <p class="text-gray-500 text-sm">
+                        {{ request.user.first_name|upper}}{{ request.user.last_name|upper }}
+                    </p>
+                    <p class="text-gray-400 text-xs">
+                        Artisan en <span class="text-blue-500 font-bold">
+                            {{ request.user.artisan.metier_principal }}
+                        </span>
+                    </p>
+                </div>
+                <div class="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
+                    <a href="{% url 'edit_artisan' %}">
+                        {{ request.user.last_name|slice:":1"|upper }}{{ request.user.first_name|slice:":1"|upper }}
+                    </a>
+                </div>
+            </div>
+
+            <form action="{% url 'deconnexion' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="cursor-pointer hover:text-blue-500 text-gray-600">
+                    Deconnexion
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- SCRIPT -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const btn = document.getElementById("dash-menu-btn");
+        const menu = document.getElementById("dash-mobile-menu");
+
+        btn.addEventListener("click", () => {
+            if (menu.classList.contains("hidden")) {
+                menu.classList.remove("hidden");
+                menu.style.display = "flex";
+                menu.style.flexDirection = "column";
+            } else {
+                menu.classList.add("hidden");
+                menu.style.display = "";
+                menu.style.flexDirection = "";
+            }
+        });
+    });
+</script>
+
+{% endblock nav %}
+    
 
 <section class="bg-blue-100 w-full min-h-screen py-20">
     <div class="max-w-4xl mx-auto px-4">
@@ -334,4 +442,5 @@
     }
 </style>
 
-{% endblock %}
+
+{% endblock content %}

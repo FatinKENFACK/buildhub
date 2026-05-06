@@ -3,8 +3,8 @@
 
 <!-- chargement des fichiers static -->
 {% load static %}
+{% block content %}
 
-{% block navbar %}
 <div class="bg-white shadow-md shadow-gray-900 fixed z-50 top-0 left-0 w-full transition-colors duration-300">
     <nav class="flex justify-between items-center h-16 ml-12 mr-12">
         <div>
@@ -36,21 +36,6 @@
             <!-- main texte  -->
             <div class=" mb-4">
 
-                <!-- {% if messages %}
-                <div class="space-y-2 mb-4">
-                    {% for message in messages %}
-                    <div class="px-4 py-2 rounded shadow text-white
-                {% if message.tags == 'success' %} bg-green-500
-                {% elif message.tags == 'error' %} bg-red-500
-                {% else %} bg-blue-500
-                {% endif %}
-            ">
-                        {{ message }}
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %} -->
-
                 <div class="flex sm:gap-0.5 md:gap-1 lg:gap-2 justify-center items-center">
                     <img class="sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-14 lg:w-14 w-10 h-10"
                         src="{% static 'first/images/bienvenue.png' %}" alt="">
@@ -66,7 +51,7 @@
                 {% csrf_token %}
 
                 <div>
-                    <label for="" id="" class="block sm:text-md md:text-lg lg:text-xl text-gray-800">Nom</label>
+                    <label for="" id="" class="block sm:text-md md:text-md lg:text-md text-gray-800">Nom</label>
                     <input type="text" value="{{ form.nom.value|default:'' }}" name="nom" id="" placeholder="KENFACK"
                         class="mt-1 block w-full rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500 border-gray-500 shadow-md">
                 </div>
@@ -75,7 +60,7 @@
                 {% endif %}
 
                 <div>
-                    <label for="" id="" class="block sm:text-md md:text-lg lg:text-xl text-gray-800">Prénom</label>
+                    <label for="" id="" class="block sm:text-md md:text-md lg:text-md text-gray-800">Prénom</label>
                     <input type="text" value="{{ form.prenom.value|default:'' }}" name="prenom" id=""
                         placeholder="Fatin"
                         class="mt-1 block w-full rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500 border-gray-500 shadow-md">
@@ -85,7 +70,7 @@
                 {% endif %}
 
                 <div>
-                    <label for="" id="" class="block sm:text-md md:text-lg lg:text-xl text-gray-800">Email</label>
+                    <label for="" id="" class="block sm:text-md md:text-md lg:text-md text-gray-800">Email</label>
                     <input type="email" value="{{ form.email.value|default:'' }}" name="email" id=""
                         placeholder="exemple@gmail.com"
                         class="mt-1 block w-full rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500 border-gray-500 shadow-md">
@@ -95,7 +80,7 @@
                 {% endif %}
 
                 <div>
-                    <label for="" id="" class="block sm:text-md md:text-lg lg:text-xl text-gray-800">Téléphone</label>
+                    <label for="" id="" class="block sm:text-md md:text-md lg:text-md text-gray-800">Téléphone</label>
                     <input type="number" value="{{ form.telephone.value|default:'' }}" name="telephone" id=""
                         placeholder="678236598"
                         class="mt-1 block w-full rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500 border-gray-500 shadow-md">
@@ -105,7 +90,10 @@
                 {% endif %}
 
                 <div>
-                    <label for="" class="block sm:text-md md:text-lg lg:text-xl text-gray-800">Mot de passe</label>
+                    <label for="" class="block sm:text-md md:text-md lg:text-md text-gray-800">
+                        Mot de passe 
+                        <span class="text-xs text-blue-500">(Le mot de passe doit contenir au-moins 8 caractères et des caractères speciaux)</span>
+                    </label>
                     <input type="password" name="password" placeholder="***********"
                         class="mt-1 block w-full rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500 border-gray-500 shadow-md">
                 </div>
@@ -114,7 +102,7 @@
                 {% endif %}
 
                 <div>
-                    <label for="" class="block sm:text-md md:text-lg lg:text-xl text-gray-800">Confirme mot de
+                    <label for="" class="block sm:text-md md:text-md lg:text-md text-gray-800">Confirme mot de
                         passe</label>
                     <input type="password" name="confirm_password" placeholder="***********"
                         class="mt-1 block w-full rounded-lg p-2 focus:outline-none focus:ring-2 focus:border-blue-500 focus:ring-blue-500 border-gray-500 shadow-md">
@@ -128,7 +116,7 @@
                     <input type="checkbox" name="is_artisan"
                         class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400">
                          {% if form.is_artisan.value %} checked {% endif %}
-                    <p class="text-sm sm:text-sm md:text-md lg:text-lg text-gray-600 text-center">
+                    <p class="block sm:text-md md:text-md lg:text-md text-gray-800">
                         Je suis un artisan
                     </p>
                 </div>
@@ -140,7 +128,7 @@
                 <div class="text-center mt-5 flex gap-2 justify-center items-center">
                     <input type="checkbox" name="accept_policy"
                         class="w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-400">
-                    <p class="text-sm sm:text-sm md:text-md lg:text-lg text-gray-600 text-center "> j'accepte le <span
+                    <p class="block sm:text-md md:text-md lg:text-md text-gray-800 text-center"> j'accepte le <span
                             class="text-blue-500">conditions générales d'utilisation </span> et la <span
                             class="text-blue-500">politique de confidentialité</span></p>
                 </div>
@@ -176,8 +164,5 @@
     });
 </script>
 
-{% block content %}
-
-{% endblock %}
 
 {% endblock %}

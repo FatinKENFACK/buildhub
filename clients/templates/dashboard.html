@@ -23,11 +23,9 @@
                     Tableau de bord
                 </p>
 
-                <!-- Mes demandes -->
                 <a class="hover:text-blue-500 text-gray-600 flex items-center gap-2 relative"
                     href="{% url 'demandes' %}">
                     Mes demandes
-
                     {% if unread_demandes > 0 %}
                     <span class="animate-blink bg-red-500 text-white text-xs font-bold 
                                 w-5 h-5 flex items-center justify-center rounded-full absolute -top-1 -right-2 shadow">
@@ -37,11 +35,8 @@
                 </a>
 
                 <div class="flex items-center gap-1">
-                    <a class="hover:text-blue-500 text-gray-600" href="{% url 'chat' %}">
-                        Messages
-                    </a>
-                    <span
-                        class="bg-red-500 animate-ping duration-100 w-4 h-4 flex justify-center items-center text-white text-xs px-2 rounded-full">3</span>
+                    <a class="hover:text-blue-500 text-gray-600" href="{% url 'chat' %}">Messages</a>
+                    <span class="bg-red-500 animate-ping duration-100 w-4 h-4 flex justify-center items-center text-white text-xs px-2 rounded-full">3</span>
                 </div>
 
                 <a class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 font-bold"
@@ -49,7 +44,6 @@
                     + Nouvelle demande
                 </a>
 
-                <!-- Profil -->
                 <div class="flex items-center gap-2">
                     <div class="text-center">
                         <p class="text-gray-500 text-sm">
@@ -63,14 +57,13 @@
                             {% endif %}
                         </p>
                     </div>
-
-                    <div
-                        class="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
+                    <div class="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
                         <a href="#">
                             {{ request.user.last_name|slice:":1"|upper }}{{ request.user.first_name|slice:":1"|upper }}
                         </a>
                     </div>
                 </div>
+
                 <form action="{% url 'deconnexion' %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="cursor-pointer hover:text-blue-500 text-gray-600">
@@ -80,78 +73,94 @@
 
             </div>
 
-            <!-- HAMBURGER -->
-            <button id="menu-btn" class="md:hidden text-2xl">
-                ☰
-            </button>
+            <!--  ID renommé "dash-menu-btn" au lieu de "menu-btn" -->
+            <button id="dash-menu-btn" class="md:hidden text-2xl">☰</button>
 
         </nav>
 
-        <!-- MENU MOBILE -->
-        <div id="mobile-menu"
+        <!--   : ID renommé "dash-mobile-menu" au lieu de "mobile-menu" -->
+        <div id="dash-mobile-menu"
             class="hidden fixed top-16 right-0 w-3/4 max-w-sm h-screen bg-white shadow-lg p-6 flex-col gap-6 z-40">
 
-            <a href="" class="text-gray-700">Tableau de bord</a>
-            <a href="" class="text-gray-700">Mes demandes</a>
+            <a href="{% url 'dashboard' %}" class="bg-blue-100 text-blue-500 rounded-lg px-3 py-1 font-bold">Tableau de bord</a>
+            <a href="{% url 'demandes' %}" class="text-gray-700 hover:text-blue-500">Mes demandes</a>
 
             <div class="flex items-center gap-2">
-                <a href="" class="text-gray-700">Messages</a>
-                <span class="bg-red-500 text-white text-xs px-2 rounded-full w-4 h-4">3</span>
+                <a href="{% url 'chat' %}" class="text-gray-700 hover:text-blue-500">Messages</a>
+                <span class="bg-red-500 animate-ping duration-100 text-white text-xs px-2 rounded-full w-4 h-4 flex items-center justify-center">3</span>
             </div>
 
-            <a href="" class="bg-blue-500 text-white p-2 rounded-lg text-center">
+            <a href="{% url 'creerDemande' %}" class="bg-blue-500 text-white p-2 rounded-lg text-center">
                 + Nouvelle demande
             </a>
 
-            <div class="border-t pt-4">
-                <p class="text-gray-500">{{ request.user.first_name }} {{ request.user.last_name }}</p>
-                <p class="text-gray-400 text-sm">
-                    {% if request.user.profil.is_artisan %}
-                    Artisan
-                    {% else %}
-                    Client
-                    {% endif %}
-                </p>
-            </div>
+              <div class="flex items-center gap-2">
+                    <div class="text-center">
+                        <p class="text-gray-500 text-sm">
+                            {{ request.user.last_name|upper }} {{ request.user.first_name|upper }}
+                        </p>
+                        <p class="text-gray-400 text-xs">
+                            {% if request.user.profil.is_artisan %}
+                            Artisan
+                            {% else %}
+                            Client
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="w-10 h-10 flex items-center justify-center bg-blue-500 text-white font-bold rounded-full">
+                        <a href="#">
+                            {{ request.user.last_name|slice:":1"|upper }}{{ request.user.first_name|slice:":1"|upper }}
+                        </a>
+                    </div>
+                </div>
+
+            <form action="{% url 'deconnexion' %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="cursor-pointer hover:text-blue-500 text-gray-600">
+                        Deconnexion
+                    </button>
+                </form>
 
         </div>
 
     </div>
 </section>
 
-<!-- SCRIPT -->
+<!-- ✅ CORRECTION 3 : Script qui cible les bons IDs "dash-menu-btn" et "dash-mobile-menu" -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const btn = document.getElementById("menu-btn");
-        const menu = document.getElementById("mobile-menu");
+        const btn = document.getElementById("dash-menu-btn");
+        const menu = document.getElementById("dash-mobile-menu");
 
         btn.addEventListener("click", () => {
-            menu.classList.toggle("hidden");
-            menu.classList.toggle("flex");
+            if (menu.classList.contains("hidden")) {
+                menu.classList.remove("hidden");
+                menu.style.display = "flex";
+                menu.style.flexDirection = "column";
+            } else {
+                menu.classList.add("hidden");
+                menu.style.display = "";
+                menu.style.flexDirection = "";
+            }
         });
     });
 </script>
 
 {% endblock %}
 
-<!-- dasboard client -->
+<!-- dashboard client -->
 <section class="bg-blue-50 pt-20 w-full min-h-screen">
     <div class="mr-12 ml-12">
         <!-- message d'accueil -->
         <div class="mt-5">
             <p class="sm:text-xl md:text-2xl lg:text-3xl font-bold mb-2">Bonjour {{ request.user.last_name }}</p>
-            <p class="sm:text-sm md:text-md lg:text-lg text-gray-800">Voici un aperçu de vos projets et activités
-                récentes</p>
+            <p class="sm:text-sm md:text-md lg:text-lg text-gray-800">Voici un aperçu de vos projets et activités récentes</p>
         </div>
 
-
-
-        <!-- message ou traitement -->
+        <!-- cards -->
         <div class="grid sm:grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4 mt-5">
 
-            <!-- card 1 -->
-            <div
-                class="bg-white p-4 rounded-lg shadow-md  transition-all hover:scale-105 hover:-translate-y-2 duration-300">
+            <div class="bg-white p-4 rounded-lg shadow-md transition-all hover:scale-105 hover:-translate-y-2 duration-300">
                 <div class="flex justify-between items-center mb-1">
                     <img src="{% static 'clients/images/demande.png' %}" alt="sheet" class="w-10 h-10">
                     <p class="text-blue-700 bg-blue-100 p-2 rounded-full text-sm">Actives</p>
@@ -162,9 +171,7 @@
                 </div>
             </div>
 
-            <!-- card 2 -->
-            <div
-                class="bg-white p-4 rounded-lg shadow-md  transition-all hover:scale-105 hover:-translate-y-2 duration-300">
+            <div class="bg-white p-4 rounded-lg shadow-md transition-all hover:scale-105 hover:-translate-y-2 duration-300">
                 <div class="flex justify-between items-center mb-1">
                     <img src="{% static 'clients/images/devis.png' %}" alt="sheet" class="w-10 h-10">
                     <p class="text-green-700 bg-green-100 p-2 rounded-full text-sm">+3 nouveaux</p>
@@ -175,9 +182,7 @@
                 </div>
             </div>
 
-            <!-- card 3 -->
-            <div
-                class="bg-white p-4 rounded-lg shadow-md  transition-all hover:scale-105 hover:-translate-y-2 duration-300">
+            <div class="bg-white p-4 rounded-lg shadow-md transition-all hover:scale-105 hover:-translate-y-2 duration-300">
                 <div class="flex justify-between items-center mb-1">
                     <img src="{% static 'clients/images/plan.png' %}" alt="sheet" class="w-10 h-10">
                     <p class="text-amber-700 bg-amber-100 p-2 rounded-full text-sm">En cours</p>
@@ -188,10 +193,7 @@
                 </div>
             </div>
 
-            <!-- card 4 -->
-
-            <div
-                class="bg-white p-4 rounded-lg shadow-md  transition-all hover:scale-105 hover:-translate-y-2 duration-300">
+            <div class="bg-white p-4 rounded-lg shadow-md transition-all hover:scale-105 hover:-translate-y-2 duration-300">
                 <div class="flex justify-between items-center mb-1">
                     <img src="{% static 'clients/images/message.png' %}" alt="sheet" class="w-10 h-10">
                     <p class="text-fuchsia-700 bg-fuchsia-100 p-2 rounded-full text-sm">3 nom lus</p>
@@ -203,12 +205,10 @@
             </div>
         </div>
 
-        <!-- demades recente et action rapide et autres -->
+        <!-- demandes recentes et action rapide -->
         <div class="flex flex-col lg:flex-row gap-4">
 
-            <!-- #############premiere div (70%)################ -->
             <div class="w-full lg:w-[70%]">
-
                 <div class="gap-4 mb-4">
                     <div class="mt-4 sm:mt-8 bg-white rounded-lg w-full">
 
@@ -216,126 +216,72 @@
                             <p class="font-bold text-md md:text-lg lg:text-xl">Mes demandes récentes</p>
                             <button class="flex gap-2 cursor-pointer text-blue-500">
                                 Voir tout
-                                <span
-                                    class="w-6 h-6 flex justify-center items-center bg-blue-500 text-white rounded-full">-></span>
+                                <span class="w-6 h-6 flex justify-center items-center bg-blue-500 text-white rounded-full">-></span>
                             </button>
                         </div>
 
-                        <!-- demandes -->
                         <div class="flex flex-col gap-4">
                             {% for demande in demands %}
-
-                            <div
-                                class="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
-
+                            <div class="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
                                 <div class="p-4 sm:p-6">
                                     <div class="flex flex-col sm:flex-row items-start gap-4">
 
-                                        <!-- Image -->
-                                        <div
-                                            class="w-16 h-16 sm:w-24 sm:h-24 rounded-lg bg-linear-to-br from-blue-100 to-blue-200 flex items-center justify-center shrink-0">
-                                            <svg class="w-8 h-8 sm:w-12 sm:h-12 text-blue-600" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
-                                                </path>
+                                        <div class="w-16 h-16 sm:w-24 sm:h-24 rounded-lg bg-linear-to-br from-blue-100 to-blue-200 flex items-center justify-center shrink-0">
+                                            <svg class="w-8 h-8 sm:w-12 sm:h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                                             </svg>
                                         </div>
 
-                                        <!-- Contenu -->
                                         <div class="flex-1 w-full">
-
                                             <div class="flex justify-between items-start mb-3 gap-2">
                                                 <div class="flex-1">
-                                                    <h3
-                                                        class="text-sm sm:text-md lg:text-lg font-bold text-gray-600 mb-2 wrap-break-word">
-                                                        Titre de la demande : <span class="text-xl underline">
-
-                                                            {{ demande.titre }}</span>
+                                                    <h3 class="text-sm sm:text-md lg:text-lg font-bold text-gray-600 mb-2 wrap-break-word">
+                                                        Titre de la demande : <span class="text-xl underline">{{ demande.titre }}</span>
                                                     </h3>
-
                                                     <div class="flex flex-col gap-2 mb-3">
-                                                        <span
-                                                            class="px-3 p-2 bg-blue-100 w-fit text-blue-700 text-sm font-medium rounded-xl">
-                                                            <span class="text-xs text-gray-600">service de:</span>
-
-                                                            {{ demande.categorie }}
+                                                        <span class="px-3 p-2 bg-blue-100 w-fit text-blue-700 text-sm font-medium rounded-xl">
+                                                            <span class="text-xs text-gray-600">service de:</span> {{ demande.categorie }}
                                                         </span>
-
-                                                        <span
-                                                            class="p-2 rounded-lg bg-green-100 text-green-700 text-sm font-medium wrap-break-word">
-                                                            <span class="text-xs text-gray-600">Decription du service
-                                                                :</span> {{ demande.description }}
+                                                        <span class="p-2 rounded-lg bg-green-100 text-green-700 text-sm font-medium wrap-break-word">
+                                                            <span class="text-xs text-gray-600">Description du service :</span> {{ demande.description }}
                                                         </span>
                                                     </div>
                                                 </div>
-
-                                                <button
-                                                    class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition">
-                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor"
-                                                        viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01">
-                                                        </path>
+                                                <button class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"></path>
                                                     </svg>
                                                 </button>
                                             </div>
 
-                                            <!-- statut -->
                                             <div>
-                                                <p class="
-                                            {% if demande.statut == 'accepté' %} bg-green-100 text-green-600
-                                            {% elif demande.statut == 'refusé' %} bg-red-100 text-red-600
-                                            {% else %} bg-yellow-100 text-yellow-600
-                                            {% endif %}
-                                            mb-4 font-bold text-center w-fit px-3 py-1 rounded-lg">
-
-                                                    <span class="text-xs text-gray-600">Statut :</span>
-
-                                                    {{ demande.get_statut_display }}
+                                                <p class="{% if demande.statut == 'accepté' %}bg-green-100 text-green-600{% elif demande.statut == 'refusé' %}bg-red-100 text-red-600{% else %}bg-yellow-100 text-yellow-600{% endif %} mb-4 font-bold text-center w-fit px-3 py-1 rounded-lg">
+                                                    <span class="text-xs text-gray-600">Statut :</span> {{ demande.get_statut_display }}
                                                 </p>
                                             </div>
 
-                                            <!-- infos -->
-                                            <div
-                                                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-4 text-sm ">
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-4 text-sm">
                                                 <div class="bg-blue-100 p-2 font-medium text-center rounded-lg">
                                                     <p class="text-gray-600">Localisation</p>
                                                     <p class="uppercase font-black">{{ demande.localisation }}</p>
                                                 </div>
-
                                                 <div class="bg-violet-100 p-2 font-medium text-center rounded-lg">
                                                     <p class="text-gray-600">Budget max et min</p>
-                                                    <p class="font-bold"> {{ demande.budget_min }} -
-                                                        {{ demande.budget_max }} FCFA</p>
+                                                    <p class="font-bold">{{ demande.budget_min }} - {{ demande.budget_max }} FCFA</p>
                                                 </div>
-
                                                 <div class="bg-amber-100 p-2 font-medium text-center rounded-lg">
                                                     <p class="text-gray-600">Date et heure de publication</p>
-                                                    <p class="font-bold"> {{ demande.date_creation }}</p>
+                                                    <p class="font-bold">{{ demande.date_creation }}</p>
                                                 </div>
                                             </div>
 
-                                            <!-- boutons -->
                                             <div class="flex flex-col sm:flex-row gap-2 sm:justify-between">
-
                                                 <a href="{% url 'modifierDemande' demande.id %}">
-                                                    <button
-                                                        class="w-full sm:w-auto px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition">
-                                                        Modifier
-                                                    </button>
+                                                    <button class="w-full sm:w-auto px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition">Modifier</button>
                                                 </a>
-
-                                                <button
-                                                    class="w-full sm:w-auto px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition">
-                                                    Messages (3)
-                                                </button>
-
+                                                <button class="w-full sm:w-auto px-4 py-2 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition">Messages (3)</button>
                                                 <a href="{% url 'supprimerDemande' demande.id %}">
-                                                    <button
-                                                        class="w-full sm:w-auto px-4 py-2 text-red-600 hover:bg-red-50 font-medium rounded-lg transition">
-                                                        Supprimer
-                                                    </button>
+                                                    <button class="w-full sm:w-auto px-4 py-2 text-red-600 hover:bg-red-50 font-medium rounded-lg transition">Supprimer</button>
                                                 </a>
                                             </div>
 
@@ -343,7 +289,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
 
                             {% empty %}
@@ -358,48 +303,32 @@
                 </div>
             </div>
 
-            <!-- ############seconde div (30%)############# -->
             <div class="w-full lg:w-[30%]">
-
-
-
                 <div class="mt-4 shadow-lg bg-white rounded-lg mb-4">
-
                     <div class="bg-blue-700 rounded-lg m-1 p-2">
                         <p class="text-white font-bold text-lg text-center">Action rapide</p>
                         <div class="flex flex-col gap-2 mt-2">
-                            <a class="text-white bg-blue-500 rounded-lg p-2 text-center hover:bg-blue-700 font-bold"
-                                href="{% url 'home' %}">Retour à la page d'accueil</a>
-                            <a class="text-white bg-blue-500 rounded-lg p-2 text-center hover:bg-blue-700"
-                                href="#">Publiez une demande</a>
-                            <a class="text-white bg-blue-500 rounded-lg p-2 text-center hover:bg-blue-700" href="#">Voir
-                                les messages</a>
-                            <a class="text-white bg-blue-500 rounded-lg p-2 text-center hover:bg-blue-700"
-                                href="#">Laissez un message</a>
+                            <a class="text-white bg-blue-500 rounded-lg p-2 text-center hover:bg-blue-700 font-bold" href="{% url 'home' %}">Retour à la page d'accueil</a>
+                            <a class="text-white bg-blue-500 rounded-lg p-2 text-center hover:bg-blue-700" href="{% url 'creerDemande' %}">Publiez une demande</a>
+                            <a class="text-white bg-blue-500 rounded-lg p-2 text-center hover:bg-blue-700" href="{% url 'chat' %}">Voir les messages</a>
+                            <a class="text-white bg-blue-500 rounded-lg p-2 text-center hover:bg-blue-700" href="#">Laissez un message</a>
                         </div>
                     </div>
 
-                    <!-- conseil -->
                     <div class="mt-4 shadow-lg bg-white rounded-lg">
-
                         <div class="bg-fuchsia-200 rounded-lg m-1 p-2">
                             <p class="font-bold text-md text-center">Conseil du jour</p>
-                            <p class="text-sm text-center">
-                                Comparez toujours au moins trois devis avant de faire votre choix.
-                            </p>
+                            <p class="text-sm text-center">Comparez toujours au moins trois devis avant de faire votre choix.</p>
                         </div>
-
                         <div class="rounded-lg m-1 bg-linear-to-r from-blue-200 to-blue-500 p-2">
                             <p class="font-bold text-lg text-center">Besoin d'aide ?</p>
                             <p class="text-sm text-center">Notre équipe est disponible pour vous accompagner</p>
-
-                            <div class="font-bold grid gap-1 mt-2 ">
+                            <div class="font-bold grid gap-1 mt-2">
                                 <a href="#">Chat en direct</a>
                                 <a href="#"> buildhub@gmail.com</a>
                                 <a href="#"> 672-69-16-67</a>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -407,87 +336,54 @@
         </div>
 
         <!-- Zone de devis recu de l'artisan -->
-        <div class="flex flex-col sm:flex-row gap-4 mb-4 ">
+        <div class="flex flex-col sm:flex-row gap-4 mb-4">
 
-
-            <!-- partie 1 -->
             <div class="mt-8 bg-white rounded-lg w-full sm:w-[70%]">
                 <div class="flex justify-between p-3">
-                    <p class="font-bold sm:text:md md:text-lg lg:text-xl ">Dévis reçu récemment</p>
+                    <p class="font-bold sm:text:md md:text-lg lg:text-xl">Dévis reçu récemment</p>
                 </div>
 
                 {% for devis in devis %}
-
                 <div class="mt-0.5 hover:bg-gray-50 transition"></div>
                 <div class="bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition">
                     <div class="p-4 sm:p-6">
                         <div class="flex flex-col lg:flex-row lg:items-start gap-4">
-                            <!-- Icône -->
-                            <div
-                                class="hidden sm:flex w-16 h-16 rounded-lg bg-linear-to-br from-green-100 to-green-200 shrink-0 items-center justify-center">
-                                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            <div class="hidden sm:flex w-16 h-16 rounded-lg bg-linear-to-br from-green-100 to-green-200 shrink-0 items-center justify-center">
+                                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                             </div>
 
                             <div class="flex-1 min-w-0">
-                                <!-- En-tête du devis -->
                                 <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
                                     <div class="flex-1">
                                         <div class="flex flex-wrap items-center gap-2 mb-2">
-                                            <h3 class="text-lg sm:text-xl font-bold text-gray-900">
-                                                Demande: {{ devis.demande.titre }}</h3>
-                                            <span class="px-3 py-1 text-xs font-medium rounded-full
-                                                    {% if devis.statut == 'accepté' %}
-                                                        bg-green-100 text-green-700
-                                                    {% elif devis.statut == 'refusé' %}
-                                                        bg-red-100 text-red-700
-                                                    {% else %}
-                                                        bg-yellow-100 text-yellow-700
-                                                    {% endif %}
-                                                    ">
+                                            <h3 class="text-lg sm:text-xl font-bold text-gray-900">Demande: {{ devis.demande.titre }}</h3>
+                                            <span class="px-3 py-1 text-xs font-medium rounded-full {% if devis.statut == 'accepté' %}bg-green-100 text-green-700{% elif devis.statut == 'refusé' %}bg-red-100 text-red-700{% else %}bg-yellow-100 text-yellow-700{% endif %}">
                                                 {{ devis.statut }}
                                             </span>
                                         </div>
                                         <div class="flex flex-wrap items-center gap-3 text-sm text-gray-600">
                                             <span class="flex items-center gap-1">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        stroke-width="2"
-                                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
-                                                    </path>
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                                 </svg>
-                                                Artisan: <p class="font-bold">
-                                                    {{ devis.artisan.last_name|upper }}
-                                                    {{ devis.artisan.first_name|upper }}
-                                                </p>
-
-
+                                                Artisan: <p class="font-bold">{{ devis.artisan.last_name|upper }} {{ devis.artisan.first_name|upper }}</p>
                                             </span>
-
                                         </div>
                                     </div>
                                     <div class="text-left sm:text-right">
                                         <p class="text-2xl sm:text-3xl font-bold text-gray-900">
-                                            {{ devis.montant }}
-
-                                            <span class="text-base sm:text-lg text-gray-500">FCFA</span>
+                                            {{ devis.montant }} <span class="text-base sm:text-lg text-gray-500">FCFA</span>
                                         </p>
                                         <p class="text-xs sm:text-sm text-gray-500 mt-1">TTC (TVA 20%)</p>
                                     </div>
                                 </div>
 
-                                <!-- Description -->
                                 <div class="bg-gray-50 rounded-lg p-3 sm:p-4 mb-4">
-                                    <p class="text-md text-gray-700 leading-relaxed">
-                                        {{ devis.message }}
-                                    </p>
+                                    <p class="text-md text-gray-700 leading-relaxed">{{ devis.message }}</p>
                                 </div>
 
-                                <!-- Détails -->
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
                                     <div class="bg-blue-50 rounded-lg p-3 text-center">
                                         <p class="text-xs text-blue-600 font-medium mb-1">Montant HT</p>
@@ -497,88 +393,57 @@
                                         <div class="flex justify-center gap-10 items-center">
                                             <div>
                                                 <p class="text-xs text-purple-600 font-medium mb-1">Délai</p>
-                                                <p class="text-base sm:text-lg font-bold text-purple-900">
-                                                    {{ devis.delai }} jours
-                                                </p>
+                                                <p class="text-base sm:text-lg font-bold text-purple-900">{{ devis.delai }} jours</p>
                                             </div>
                                             <div>
                                                 <p class="text-xs text-yellow-600 font-medium mb-1">Validité</p>
                                                 <p class="text-base sm:text-lg font-bold text-yellow-900">
-                                                    {% if devis.jours_restants > 0 %}
-                                                    Il reste {{ devis.jours_restants }} jours
-                                                    {% elif item.devis.jours_restants == 0 %}
-                                                    Dernier jour
-                                                    {% else %}
-                                                    Expiré
-                                                    {% endif %}
+                                                    {% if devis.jours_restants > 0 %}Il reste {{ devis.jours_restants }} jours
+                                                    {% elif item.devis.jours_restants == 0 %}Dernier jour
+                                                    {% else %}Expiré{% endif %}
                                                 </p>
                                             </div>
                                         </div>
-
                                     </div>
-
                                 </div>
 
-                                <!-- delai -->
                                 <div class="bg-green-50 border border-green-200 rounded-lg p-3 sm:p-4 mb-4">
-                                    <div
-                                        class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
-                                        <div class="flex items-center gap-2">
-
-
-                                        </div>
+                                    <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
                                         <div class="flex items-center gap-2">
                                             <svg class="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd"
-                                                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                    clip-rule="evenodd"></path>
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
                                             </svg>
-                                            <span class="text-green-700"><span class="font-medium">Envoyé
-                                                    le:</span>
-                                                {{ devis.date_creation }}</span>
+                                            <span class="text-green-700"><span class="font-medium">Envoyé le:</span> {{ devis.date_creation }}</span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Actions -->
                                 <div class="flex flex-wrap gap-2 sm:gap-3">
                                     {% if demande.est_fermee %}
-                                    <p class="text-gray-500 font-bold">Décision déjà prise vous ne pouvez plus la
-                                        modifier</p>
+                                    <p class="text-gray-500 font-bold">Décision déjà prise vous ne pouvez plus la modifier</p>
                                     {% else %}
                                     {% csrf_token %}
-
-                                    <!-- Refuser -->
                                     <form action="{% url 'devisrefuser' devis.id %}" method="POST">
-
-                                        <button type="submit"
-                                            class="px-4 py-2.5 border border-gray-300 hover:bg-red-700 text-white bg-red-500 font-medium rounded-lg transition text-sm sm:text-base">
-                                            <span class=" sm:inline ml-2">Refuser le devis</span>
+                                        {% csrf_token %}
+                                        <button type="submit" class="px-4 py-2.5 border border-gray-300 hover:bg-red-700 text-white bg-red-500 font-medium rounded-lg transition text-sm sm:text-base">
+                                            <span class="sm:inline ml-2">Refuser le devis</span>
                                         </button>
                                     </form>
-
-                                    <!-- Contacter -->
-                                    <button
-                                        class="px-4 py-2.5 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition text-sm sm:text-base">
+                                    <button class="px-4 py-2.5 border border-gray-300 hover:bg-gray-50 text-gray-700 font-medium rounded-lg transition text-sm sm:text-base">
                                         Contacter l'artisan
                                     </button>
-
-                                    <!-- Accepter -->
                                     <form action="{% url 'devisaccepter' devis.id %}" method="POST">
                                         {% csrf_token %}
-                                        <button type="submit"
-                                            class="px-4 py-2.5 border border-gray-300 hover:bg-green-700 text-white bg-green-500 font-medium rounded-lg transition text-sm sm:text-base">
+                                        <button type="submit" class="px-4 py-2.5 border border-gray-300 hover:bg-green-700 text-white bg-green-500 font-medium rounded-lg transition text-sm sm:text-base">
                                             Accepter le devis
                                         </button>
                                     </form>
-
+                                    {% endif %}
                                 </div>
-                                {% endif %}
 
                             </div>
                         </div>
                     </div>
-
                 </div>
                 {% empty %}
                 <p class="text-center m-2 text-xl bg-red-300 rounded-lg p-2 sm:text-md md:text-lg lg:text-xl">
@@ -591,55 +456,35 @@
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
                 <h3 class="text-lg font-bold text-gray-900 mb-4">Notifications</h3>
                 <div class="space-y-4">
-
                     {% for notif in notifications %}
-                    <div class="flex gap-3 p-3 rounded-lg 
-                        {% if notif.type == 'new_devis' %} bg-green-50
-                        {% elif notif.type == 'new_demande' %} bg-blue-50
-                        {% else %} bg-yellow-50 {% endif %}">
-
-                        <!-- Icône -->
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0
-                            {% if notif.type == 'new_devis' %} bg-green-500
-                            {% elif notif.type == 'new_demande' %} bg-blue-500
-                            {% else %} bg-yellow-500 {% endif %}">
-
+                    <div class="flex gap-3 p-3 rounded-lg {% if notif.type == 'new_devis' %}bg-green-50{% elif notif.type == 'new_demande' %}bg-blue-50{% else %}bg-yellow-50{% endif %}">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 {% if notif.type == 'new_devis' %}bg-green-500{% elif notif.type == 'new_demande' %}bg-blue-500{% else %}bg-yellow-500{% endif %}">
                             {% if notif.type == 'new_devis' %}
                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                             {% else %}
                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                             </svg>
                             {% endif %}
                         </div>
-
-                        <!-- Contenu -->
                         <div class="flex-1">
-                            <p class="text-sm font-medium text-gray-900 mb-1">
-                                {{ notif.message }}
-                            </p>
-                            <p class="text-xs text-gray-500 mt-1">
-                                {{ notif.created_at|timesince }}
-                            </p>
+                            <p class="text-sm font-medium text-gray-900 mb-1">{{ notif.message }}</p>
+                            <p class="text-xs text-gray-500 mt-1">{{ notif.created_at|timesince }}</p>
                         </div>
                     </div>
                     {% empty %}
                     <p class="text-gray-500 text-center py-8">Aucune nouvelle notification pour le moment</p>
                     {% endfor %}
-
                 </div>
-
-                <a href="#" class="block text-center text-sm text-blue-600 hover:text-blue-700 font-medium mt-4">
+                <a href="{% url 'notifications_clients:notifs' %}" class="block text-center text-sm text-blue-600 hover:text-blue-700 font-medium mt-4">
                     Voir toutes les notifications
                 </a>
             </div>
         </div>
 
-
+    </div>
 </section>
 
 {% endblock %}
